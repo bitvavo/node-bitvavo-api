@@ -6,7 +6,7 @@
  * Bitvavo: https://bitvavo.com
  * README: https://github.com/bitvavo/node-bitvavo-api
  */
-const bitvavo = require('../node-bitvavo-api.js')().options({
+const bitvavo = require('bitvavo')().options({
   APIKEY: '<APIKEY>',
   APISECRET: '<APISECRET>',
   ACCESSWINDOW: 10000,
