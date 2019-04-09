@@ -2616,7 +2616,7 @@ bitvavo.websocket.subscriptionBookUpdate('BTC-EUR', (response) => {
 #### Book subscription with local copy
 This is a combination of get book per market and the book subscription which maintains a local copy. On every update to the order book, the entire order book is returned to the callback, while the book subscription will only return updates to the book.
 ```javascript
-bitvavo.websocket.subscriptionBook('LTC-EUR', {}, (book) => {
+bitvavo.websocket.subscriptionBook('LTC-EUR', (book) => {
   console.log(book)
 })
 ```
