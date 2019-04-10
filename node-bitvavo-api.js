@@ -8,7 +8,9 @@ let api = function Bitvavo () {
 
   const emitter = new EventEmitter()
 
-  let apiKey, apiSecret, accessWindow
+  let apiKey = ''
+  let apiSecret = ''
+  let accessWindow = 10000
 
   let subscriptionTickerCallback, subscriptionAccountCallback, subscriptionCandlesCallback, subscriptionBookUpdatesCallback, subscriptionTradesCallback, subscriptionBookCallback
   let localBook, keepLocalBookCopy
@@ -16,6 +18,7 @@ let api = function Bitvavo () {
   let debugging = true
   let startedSocket = false
   let socketDidNotConnect = false
+  let emitterReturned = false
 
   const debugToConsole = function (message, object = null) {
     if (debugging) {
@@ -139,8 +142,16 @@ let api = function Bitvavo () {
   const handleSocketResponse = function (response) {
     this.reconnectTimer = 100
     debugToConsole('RECEIVED: ', response)
+    if (emitterReturned === false) {
+      errorToConsole('We have received a response, but you did not request the emitter in the right manner, please consult getting started with websockets in the readme.')
+      return
+    }
     if ('error' in response) {
-      emitter.emit('error', response)
+      try {
+        emitter.emit('error', response)
+      } catch (error) {
+        errorToConsole('We are trying to emit an error. But you forgot to set the emitter\'s on error, consult getting started with websockets in the readme.')
+      }
     } else if ('authenticated' in response) {
       this.authenticated = true
     } else if ('action' in response) {
@@ -401,6 +412,7 @@ let api = function Bitvavo () {
 
   return {
     getEmitter: function () {
+      emitterReturned = true
       return emitter
     },
 
@@ -557,29 +569,17 @@ let api = function Bitvavo () {
     },
 
     options: function (options) {
-      let accessWindowSet = false
-      let debuggingSet = false
-      let apiKeySet = false
-      let apiSecretSet = false
       for (let key in options) {
         if (key.toLowerCase() === 'apikey') {
           apiKey = options[key]
-          apiKeySet = true
         } else if (key.toLowerCase() === 'apisecret') {
           apiSecret = options[key]
-          apiSecretSet = true
         } else if (key.toLowerCase() === 'accesswindow') {
           accessWindow = options[key]
-          accessWindowSet = true
         } else if (key.toLowerCase() === 'debugging') {
           debugging = options[key]
-          debuggingSet = true
         }
       }
-      if (!accessWindowSet) accessWindow = 10000
-      if (!debuggingSet) debugging = false
-      if (!apiKeySet) apiKey = ''
-      if (!apiSecretSet) apiSecret = ''
       this.reconnectTimer = 100
       return this
     },
