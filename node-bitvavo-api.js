@@ -151,7 +151,7 @@ let api = function Bitvavo () {
     } else if ('authenticated' in response) {
       this.authenticated = true
     } else if ('action' in response) {
-      if (emitterReturned === false) {
+      if (emitterReturned === false && typeof keepLocalBookCopy === 'undefined') {
         errorToConsole('We have received a response, but you did not request the emitter in the right manner, please consult getting started with websockets in the readme.')
         return
       }
