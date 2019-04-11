@@ -15,7 +15,7 @@ let api = function Bitvavo () {
   let subscriptionTickerCallback, subscriptionAccountCallback, subscriptionCandlesCallback, subscriptionBookUpdatesCallback, subscriptionTradesCallback, subscriptionBookCallback
   let localBook, keepLocalBookCopy
 
-  let debugging = true
+  let debugging = false
   let startedSocket = false
   let socketDidNotConnect = false
   let emitterReturned = false
