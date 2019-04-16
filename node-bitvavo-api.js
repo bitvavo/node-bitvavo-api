@@ -12,6 +12,9 @@ let api = function Bitvavo () {
   let apiSecret = ''
   let accessWindow = 10000
 
+  let rateLimitRemaining = 1000
+  let rateLimitReset = 0
+
   let subscriptionTickerCallback, subscriptionAccountCallback, subscriptionCandlesCallback, subscriptionBookUpdatesCallback, subscriptionTradesCallback, subscriptionBookCallback
   let localBook, keepLocalBookCopy
 
@@ -139,10 +142,37 @@ let api = function Bitvavo () {
     return book
   }
 
+  const checkLimit = function () {
+    if (rateLimitReset <= Date.now()) {
+      rateLimitRemaining = 1000
+    }
+  }
+
+  const updateRateLimit = function (response) {
+    let timeToWait
+    console.log(response)
+    if (response.errorCode === 105) {
+      rateLimitRemaining = 0
+      rateLimitReset = parseInt(response.error.split(' at ')[1].split('.')[0])
+      timeToWait = rateLimitReset - Date.now()
+      setTimeout(checkLimit, timeToWait)
+    }
+    if ('bitvavo-ratelimit-remaining' in response) {
+      rateLimitRemaining = response['bitvavo-ratelimit-remaining']
+    }
+    if ('bitvavo-ratelimit-resetat' in response) {
+      rateLimitReset = response['bitvavo-ratelimit-resetat']
+      timeToWait = rateLimitReset - Date.now()
+      setTimeout(checkLimit, timeToWait)
+    }
+  }
+
   const handleSocketResponse = function (response) {
+    // updateRateLimit(response)
     this.reconnectTimer = 100
     debugToConsole('RECEIVED: ', response)
     if ('error' in response) {
+      updateRateLimit(response)
       try {
         emitter.emit('error', response)
       } catch (error) {
@@ -367,11 +397,14 @@ let api = function Bitvavo () {
     return new Promise((resolve, reject) => {
       request(options, (err, data) => {
         if (err) {
+          updateRateLimit(err)
           return callback ? callback(err) : reject(err)
         }
         if (typeof data.body.error !== 'undefined') {
+          updateRateLimit(data.headers)
           return callback ? callback(data.body, null) : reject(data.body)
         }
+        updateRateLimit(data.headers)
         return callback ? callback(null, data.body) : resolve(data.body)
       })
     })
@@ -400,11 +433,14 @@ let api = function Bitvavo () {
     return new Promise((resolve, reject) => {
       request(options, (err, data) => {
         if (err) {
+          updateRateLimit(err)
           return callback ? callback(err) : reject(err)
         }
         if (typeof data.body.error !== 'undefined') {
+          updateRateLimit(data.headers)
           return callback ? callback(data.body, null) : reject(data.body)
         }
+        updateRateLimit(data.headers)
         return callback ? callback(null, data.body) : resolve(data.body)
       })
     })
@@ -414,6 +450,10 @@ let api = function Bitvavo () {
     getEmitter: function () {
       emitterReturned = true
       return emitter
+    },
+
+    getRemainingLimit: function () {
+      return rateLimitRemaining
     },
 
     time: function (callback = false) {

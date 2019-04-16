@@ -596,6 +596,7 @@ let testWebSockets = async () => {
 }
 
 let main = async () => {
+  console.log('Our remaining rate limit at the moment is', bitvavo.getRemainingLimit())
   testRestApi()
 
   websocketSetListeners()
