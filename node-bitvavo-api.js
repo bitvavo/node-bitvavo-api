@@ -150,7 +150,6 @@ let api = function Bitvavo () {
 
   const updateRateLimit = function (response) {
     let timeToWait
-    console.log(response)
     if (response.errorCode === 105) {
       rateLimitRemaining = 0
       rateLimitReset = parseInt(response.error.split(' at ')[1].split('.')[0])
