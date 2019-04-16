@@ -168,7 +168,6 @@ let api = function Bitvavo () {
   }
 
   const handleSocketResponse = function (response) {
-    // updateRateLimit(response)
     this.reconnectTimer = 100
     debugToConsole('RECEIVED: ', response)
     if ('error' in response) {
