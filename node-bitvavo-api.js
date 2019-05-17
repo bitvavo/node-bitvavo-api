@@ -384,6 +384,7 @@ let api = function Bitvavo () {
     return ws
   }
 
+  // TODO: test if working
   const publicRequest = function (url, callback, method = 'GET', data = {}) {
     let options = {
       method: method,
@@ -392,6 +393,17 @@ let api = function Bitvavo () {
       timeout: 30000
     }
     debugToConsole('REQUEST:', options)
+    if (apiKey !== '') {
+      let timestamp = Date.now()
+      let sig = createSignature(timestamp, method, url.replace(base, ''), data)
+      options.headers = {
+        'Bitvavo-Access-Key': apiKey,
+        'Bitvavo-Access-Signature': sig,
+        'Bitvavo-Access-Timestamp': timestamp,
+        'Bitvavo-Access-Window': accessWindow
+      }
+      console.log(options)
+    }
     return new Promise((resolve, reject) => {
       request(options, (err, data) => {
         if (err) {
@@ -424,6 +436,7 @@ let api = function Bitvavo () {
         'Bitvavo-Access-Window': accessWindow
       }
     }
+    console.log(options)
     if (Object.keys(body).length !== 0) {
       options.body = body
     }
