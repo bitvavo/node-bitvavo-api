@@ -384,7 +384,6 @@ let api = function Bitvavo () {
     return ws
   }
 
-  // TODO: test if working
   const publicRequest = function (url, callback, method = 'GET', data = {}) {
     let options = {
       method: method,
@@ -402,7 +401,6 @@ let api = function Bitvavo () {
         'Bitvavo-Access-Timestamp': timestamp,
         'Bitvavo-Access-Window': accessWindow
       }
-      console.log(options)
     }
     return new Promise((resolve, reject) => {
       request(options, (err, data) => {
@@ -436,7 +434,6 @@ let api = function Bitvavo () {
         'Bitvavo-Access-Window': accessWindow
       }
     }
-    console.log(options)
     if (Object.keys(body).length !== 0) {
       options.body = body
     }
