@@ -406,26 +406,14 @@ let api = function Bitvavo () {
       request(options, (err, data) => {
         if (err) {
           updateRateLimit(err)
-          if (callback) {
-            return callback(err)
-          } else {
-            throw (err)
-          }
+          return callback ? callback(err) : reject(err)
         }
         if (typeof data.body.error !== 'undefined') {
           updateRateLimit(data.headers)
-          if (callback) {
-            return callback(data.body, null)
-          } else {
-            throw (data.body)
-          }
+          return callback ? callback(data.body, null) : reject(data.body)
         }
         updateRateLimit(data.headers)
-        if (callback) {
-          callback(null, data.body)
-        } else {
-          resolve(data.body)
-        }
+        return callback ? callback(null, data.body) : resolve(data.body)
       })
     })
   }
@@ -454,26 +442,14 @@ let api = function Bitvavo () {
       request(options, (err, data) => {
         if (err) {
           updateRateLimit(err)
-          if (callback) {
-            return callback(err)
-          } else {
-            throw (err)
-          }
+          return callback ? callback(err) : reject(err)
         }
         if (typeof data.body.error !== 'undefined') {
           updateRateLimit(data.headers)
-          if (callback) {
-            return callback(data.body, null)
-          } else {
-            throw (data.body)
-          }
+          return callback ? callback(data.body, null) : reject(data.body)
         }
         updateRateLimit(data.headers)
-        if (callback) {
-          callback(null, data.body)
-        } else {
-          resolve(data.body)
-        }
+        return callback ? callback(null, data.body) : resolve(data.body)
       })
     })
   }
