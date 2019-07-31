@@ -15,13 +15,13 @@ let api = function Bitvavo () {
   let rateLimitRemaining = 1000
   let rateLimitReset = 0
 
-  let subscriptionTickerCallback, subscriptionAccountCallback, subscriptionCandlesCallback, subscriptionBookUpdatesCallback, subscriptionTradesCallback, subscriptionBookCallback
-  let localBook, keepLocalBookCopy
-
   let debugging = false
   let startedSocket = false
   let socketDidNotConnect = false
   let emitterReturned = false
+
+  let subscriptionTickerCallback, subscriptionAccountCallback, subscriptionCandlesCallback, subscriptionBookUpdatesCallback, subscriptionTradesCallback, subscriptionBookCallback
+  let localBook, keepLocalBookCopy
 
   const debugToConsole = function (message, object = null) {
     if (debugging) {
