@@ -7,7 +7,7 @@
 </p>
 
 # Node Bitvavo Api
-This is the Node.js wrapper for the Bitvavo API. This project can be used to build your own projects which interact with the Bitvavo platform. Every function available on the API can be called through a REST request or over websockets. For info on the specifics of every parameter consult the [Bitvavo API documentatie](https://docs.bitvavo.com/)
+This is the Node.js wrapper for the Bitvavo API. This project can be used to build your own projects which interact with the Bitvavo platform. Every function available on the API can be called through a REST request or over websockets. For info on the specifics of every parameter consult the [Bitvavo API documentation](https://docs.bitvavo.com/)
 
 * Getting started       [REST](#getting-started) [Websocket](#getting-started-1)
 * General
