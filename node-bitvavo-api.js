@@ -20,7 +20,7 @@ let api = function Bitvavo () {
   let socketDidNotConnect = false
   let emitterReturned = false
 
-  let subscriptionTickerCallback, subscriptionAccountCallback, subscriptionCandlesCallback, subscriptionBookUpdatesCallback, subscriptionTradesCallback, subscriptionBookCallback
+  let subscriptionTickerCallback, subscriptionTicker24hCallback, subscriptionAccountCallback, subscriptionCandlesCallback, subscriptionBookUpdatesCallback, subscriptionTradesCallback, subscriptionBookCallback
   let localBook, keepLocalBookCopy
 
   const debugToConsole = function (message, object = null) {
@@ -288,6 +288,11 @@ let api = function Bitvavo () {
         case 'ticker':
           subscriptionTickerCallback[response.market](response)
           break
+        case 'ticker24h':
+          for (let entry of response.data) {
+            subscriptionTicker24hCallback[entry.market](entry)
+          }
+          break
         case 'book':
           if (typeof subscriptionBookUpdatesCallback !== 'undefined') {
             if (typeof subscriptionBookUpdatesCallback[response.market] !== 'undefined') {
@@ -299,7 +304,7 @@ let api = function Bitvavo () {
               if (typeof localBook[response.market] !== 'undefined') {
                 let market = response.market
                 if (response.nonce !== localBook[market].nonce + 1) {
-                  this.websocketObject.makeLocalBook(market, subscriptionBookCallback[market])
+                  this.websocketObject.subscriptionBook(market, subscriptionBookCallback[market])
                   break
                 }
                 localBook[market].bids = sortAndInsert(response.bids, localBook[market].bids, bidsCompare)
@@ -487,7 +492,7 @@ let api = function Bitvavo () {
       return publicRequest((base + '/' + symbol + '/book' + postfix), callback)
     },
 
-    // options: limit, start, end, tradeId
+    // options: limit, start, end, tradeIdFrom, tradeIdTo
     publicTrades: function (symbol = '', options = {}, callback = false) {
       let postfix = createPostfix(options)
       if (typeof options === 'function') callback = options
@@ -554,7 +559,7 @@ let api = function Bitvavo () {
       return privateRequest('/order', postfix, callback, {}, 'DELETE')
     },
 
-    // options: orderId, limit, start, end
+    // options: orderIdFrom, orderIdTo, limit, start, end
     getOrders: function (symbol = '', options = {}, callback = false) {
       options.market = symbol
       let postfix = createPostfix(options)
@@ -575,7 +580,7 @@ let api = function Bitvavo () {
       return privateRequest('/ordersOpen', postfix, callback)
     },
 
-    // options: limit, start, end, tradeId
+    // options: limit, start, end, tradeIdFrom, tradeIdTo
     trades: function (symbol = '', options = {}, callback = false) {
       options.market = symbol
       let postfix = createPostfix(options)
@@ -670,7 +675,7 @@ let api = function Bitvavo () {
         doSendPublic(this.websocket, JSON.stringify(options))
       },
 
-      // options: limit, start, end, tradeId
+      // options: limit, start, end, tradeIdFrom, tradeIdTo
       publicTrades: async function (market = '', options = {}) {
         await this.checkSocket()
         options.action = 'getTrades'
@@ -744,7 +749,7 @@ let api = function Bitvavo () {
         doSendPrivate(this.websocket, JSON.stringify(options))
       },
 
-      // options: orderId, limit, start, end
+      // options: limit, start, end, orderIdFrom, orderIdTo
       getOrders: async function (market = '', options = {}) {
         await this.checkSocket()
         options.action = 'privateGetOrders'
@@ -766,7 +771,7 @@ let api = function Bitvavo () {
         doSendPrivate(this.websocket, JSON.stringify(options))
       },
 
-      // options: limit, start, end, tradeId
+      // options: limit, start, end, tradeIdFrom, tradeIdTo
       trades: async function (market = '', options = {}) {
         await this.checkSocket()
         options.action = 'privateGetTrades'
@@ -816,6 +821,13 @@ let api = function Bitvavo () {
         subscriptionTickerCallback[market] = callback
         await this.checkSocket()
         doSendPublic(this.websocket, JSON.stringify({ 'action': 'subscribe', 'channels': [{ 'name': 'ticker', 'markets': [market] }] }))
+      },
+
+      subscriptionTicker24h: async function (market = '', callback) {
+        if (typeof subscriptionTicker24hCallback === 'undefined') subscriptionTicker24hCallback = {}
+        subscriptionTicker24hCallback[market] = callback
+        await this.checkSocket()
+        doSendPrivate(this.websocket, JSON.stringify({ 'action': 'subscribe', 'channels': [{ 'name': 'ticker24h', 'markets': [market] }] }))
       },
 
       subscriptionAccount: async function (market = '', callback) {

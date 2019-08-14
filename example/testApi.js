@@ -578,8 +578,11 @@ let testWebSockets = async () => {
   // bitvavo.websocket.subscriptionTicker('BTC-EUR', (response) => {
   //   console.log('Subscription Ticker response', response)
   // })
+  // bitvavo.websocket.subscriptionTicker24h('BTC-EUR', (response) => {
+  //   console.log('Subscription Ticker 24 hour response', response)
+  // })
   // bitvavo.websocket.subscriptionAccount('BTC-EUR', (response) => {
-  //   console.log('resp for subscription Account', response)
+  //   console.log('Subscription Account response', response)
   // })
   // bitvavo.websocket.subscriptionCandles('BTC-EUR', '1h', (response) => {
   //   console.log('Subscription Candles response', response)

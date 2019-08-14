@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://www.bitvavo.com"><img src="https://bitvavo.com/media/images/logo/bitvavoGeneral.svg" width="600" title="Bitvavo Logo">
+  <a href="https://bitvavo.com"><img src="https://bitvavo.com/media/images/logo/bitvavoGeneral.svg" width="600" title="Bitvavo Logo">
   <br>
   <br>
   <a href="https://github.com/bitvavo/node-bitvavo-api.git" alt="Downloads">
@@ -7,7 +7,7 @@
 </p>
 
 # Node Bitvavo Api
-This is the Node.js wrapper for the Bitvavo API. This project can be used to build your own projects which interact with the Bitvavo platform. Every function available on the API can be called through a REST request or over websockets. For info on the specifics of every parameter consult the [documentation](https://docs.bitvavo.com/)
+This is the Node.js wrapper for the Bitvavo API. This project can be used to build your own projects which interact with the Bitvavo platform. Every function available on the API can be called through a REST request or over websockets. For info on the specifics of every parameter consult the [Bitvavo API documentatie](https://docs.bitvavo.com/)
 
 * Getting started       [REST](#getting-started) [Websocket](#getting-started-1)
 * General
@@ -37,6 +37,7 @@ This is the Node.js wrapper for the Bitvavo API. This project can be used to bui
   * Withdrawal History  [REST](#get-withdrawal-history) [Websocket](#get-withdrawal-history-1)
 * [Subscriptions](#subscriptions)
   * [Ticker Subscription](#ticker-subscription)
+  * [Ticker 24 Hour Subscription](#ticker-24-hour-subscription)
   * [Account Subscription](#account-subscription)
   * [Candles Subscription](#candles-subscription)
   * [Trades Subscription](#trades-subscription)
@@ -358,7 +359,7 @@ try {
 #### Get trades per market
 ```javascript
 // Function with callback
-// options: limit, start, end, tradeId
+// options: limit, start, end, tradeIdFrom, tradeIdTo
 bitvavo.publicTrades('BTC-EUR', {}, (error, response) => {
   if (error === null) {
     console.log(response)
@@ -368,7 +369,7 @@ bitvavo.publicTrades('BTC-EUR', {}, (error, response) => {
 })
 
 // Function with promise
-// options: limit, start, end, tradeId
+// options: limit, start, end, tradeIdFrom, tradeIdTo
 try {
   let response = await bitvavo.publicTrades('BTC-EUR', {})
   for (let entry of response) {
@@ -566,45 +567,36 @@ try {
  <summary>View Response</summary>
 
 ```javascript
-{ market: 'ANT-EUR', bid: '0.37294', ask: '0.3782' }
-{ market: 'AION-EUR', bid: '0.11375', ask: '0.11376' }
-{ market: 'AE-EUR', bid: '0.36224', ask: '0.36508' }
-{ market: 'DGB-EUR', bid: '0.010111', ask: '0.010237' }
-{ market: 'CMT-EUR', bid: '0.021978', ask: '0.022123' }
-{ market: 'BCH-EUR', bid: '100.81', ask: '101.73' }
-{ market: 'ADA-EUR', bid: '0.031411', ask: '0.031415' }
-{ market: 'ARK-EUR', bid: '0.31809', ask: '0.3181' }
-{ market: 'GAS-EUR', bid: '1.7675', ask: '1.7725' }
-{ market: 'BAT-EUR', bid: '0.12456', ask: '0.1246' }
-{ market: 'DCR-EUR', bid: '16.018', ask: '16.108' }
-{ market: 'MIOTA-EUR', bid: '0.25656', ask: '0.25846' }
-{ market: 'ETH-EUR', bid: '89.987', ask: '89.988' }
-{ market: 'RDD-EUR', bid: '0.0011564', ask: '0.0011917' }
-{ market: 'ETC-EUR', bid: '3.7418', ask: '3.7483' }
-{ market: 'NANO-EUR', bid: '0.85528', ask: '0.8575' }
-{ market: 'GNT-EUR', bid: '0.059622', ask: '0.060773' }
-{ market: 'ONT-EUR', bid: '0.58367', ask: '0.60012' }
-{ market: 'LSK-EUR', bid: '1.2082', ask: '1.2502' }
-{ market: 'VTC-EUR', bid: '0.23109', ask: '0.23318' }
-{ market: 'OMG-EUR', bid: '1.1963', ask: '1.2042' }
-{ market: 'NEO-EUR', bid: '6.1506', ask: '6.1699' }
-{ market: 'SUB-EUR', bid: '0.04089', ask: '0.041101' }
-{ market: 'QTUM-EUR', bid: '1.9849', ask: '1.9927' }
-{ market: 'STORM-EUR', bid: '0.0027308', ask: '0.0027623' }
-{ market: 'SNT-EUR', bid: '0.014299', ask: '0.014444' }
-{ market: 'VET-EUR', bid: '0.003674', ask: '0.0037079' }
-{ market: 'STEEM-EUR', bid: '0.23534', ask: '0.23579' }
-{ market: 'XEM-EUR', bid: '0.059711', ask: '0.060419' }
-{ market: 'POWR-EUR', bid: '0.068482', ask: '0.068639' }
-{ market: 'ANT-BTC', bid: '0.00011259', ask: '0.00011441' }
-{ market: 'WTC-EUR', bid: '0.97266', ask: '0.97931' }
-{ market: 'ELF-EUR', bid: '0.10122', ask: '0.10219' }
-{ market: 'XLM-EUR', bid: '0.104', ask: '0.10414' }
-{ market: 'NAS-EUR', bid: '0.54514', ask: '0.54577' }
-{ market: 'AE-BTC', bid: '0.00010942', ask: '0.00011033' }
-{ market: 'ICX-EUR', bid: '0.19765', ask: '0.19916' }
-{ market: 'ZIL-EUR', bid: '0.014306', ask: '0.014379' }
-{ market: 'AION-BTC', bid: '0.000034374', ask: '0.000034426' }
+{ market: 'XVG-BTC',
+  bid: '0.00000043',
+  ask: '0.00000044',
+  bidSize: '20520.72555668',
+  askSize: '28577.12228909' }
+{ market: 'XVG-EUR',
+  bid: '0.0043516',
+  ask: '0.0044561',
+  bidSize: '1560387.75456382',
+  askSize: '1456319.40904593' }
+{ market: 'ZIL-BTC',
+  bid: '0.00000081',
+  ask: '0.00000082',
+  bidSize: '13992.6485724',
+  askSize: '5737.46205762' }
+{ market: 'ZIL-EUR',
+  bid: '0.0081972',
+  ask: '0.0083046',
+  bidSize: '19825.02546306',
+  askSize: '19039.17428288' }
+{ market: 'ZRX-BTC',
+  bid: '0.000016184',
+  ask: '0.000016215',
+  bidSize: '827.21868459',
+  askSize: '872.2554613' }
+{ market: 'ZRX-EUR',
+  bid: '0.16378',
+  ask: '0.16417',
+  bidSize: '901.91558201',
+  askSize: '420.84088941' }
 ...
 ```
 </details>
@@ -636,83 +628,54 @@ try {
  <summary>View Response</summary>
 
 ```javascript
-{ market: 'ADA-BTC',
-  open: '0.0000095071',
-  high: '0.0000095071',
-  low: '0.0000095071',
-  last: '0.0000095071',
-  volume: '1',
-  volumeQuote: '0.00000951' }
-{ market: 'ADA-EUR',
-  open: '0.031415',
-  high: '0.031415',
-  low: '0.031415',
-  last: '0.031415',
-  volume: '1',
-  volumeQuote: '0.03' }
-{ market: 'AE-BTC',
-  open: '0.00011033',
-  high: '0.00011033',
-  low: '0.00011033',
-  last: '0.00011033',
-  volume: '1',
-  volumeQuote: '0.00011033' }
-{ market: 'AE-EUR',
-  open: '0.36508',
-  high: '0.36508',
-  low: '0.36508',
-  last: '0.36508',
-  volume: '1',
-  volumeQuote: '0.37' }
-{ market: 'AION-BTC',
-  open: '0.000034426',
-  high: '0.000034426',
-  low: '0.000034426',
-  last: '0.000034426',
-  volume: '1',
-  volumeQuote: '0.00003443' }
-{ market: 'AION-EUR',
-  open: '0.11376',
-  high: '0.11376',
-  low: '0.11376',
-  last: '0.11376',
-  volume: '1',
-  volumeQuote: '0.11' }
-{ market: 'ANT-BTC',
-  open: '0.00011455',
-  high: '0.00011455',
-  low: '0.00011455',
-  last: '0.00011455',
-  volume: '1',
-  volumeQuote: '0.00011455' }
-{ market: 'ANT-EUR',
-  open: '0.3785',
-  high: '0.3785',
-  low: '0.3785',
-  last: '0.3785',
-  volume: '1',
-  volumeQuote: '0.38' }
-{ market: 'ARK-BTC',
-  open: '0.00009624',
-  high: '0.00009624',
-  low: '0.00009624',
-  last: '0.00009624',
-  volume: '1',
-  volumeQuote: '0.00009624' }
-{ market: 'ARK-EUR',
-  open: '0.3181',
-  high: '0.3181',
-  low: '0.3181',
-  last: '0.3181',
-  volume: '1',
-  volumeQuote: '0.32' }
-{ market: 'BAT-BTC',
-  open: '0.000037708',
-  high: '0.000037708',
-  low: '0.000037708',
-  last: '0.000037708',
-  volume: '1',
-  volumeQuote: '0.00003771' }
+{ market: 'XTZ-EUR',
+  open: '1.23',
+  high: '1.2303',
+  low: '1.211',
+  last: '1.2212',
+  volume: '6070.883854',
+  volumeQuote: '7402.08',
+  bid: '1.211',
+  bidSize: '135.55716',
+  ask: '1.2145',
+  askSize: '196.660095',
+  timestamp: 1565686663799 }
+{ market: 'XVG-EUR',
+  open: '0.0045853',
+  high: '0.0045853',
+  low: '0.0043599',
+  last: '0.0044047',
+  volume: '554786.9689017',
+  volumeQuote: '2465.30',
+  bid: '0.0043539',
+  bidSize: '1559571.35409598',
+  ask: '0.0044579',
+  askSize: '1455715.43144938',
+  timestamp: 1565686663855 }
+{ market: 'ZIL-EUR',
+  open: '0.0081309',
+  high: '0.0084196',
+  low: '0.0077389',
+  last: '0.0084042',
+  volume: '890193.39720644',
+  volumeQuote: '7220.30',
+  bid: '0.0082015',
+  bidSize: '19814.65293866',
+  ask: '0.008308',
+  askSize: '19039.17428288',
+  timestamp: 1565686663816 }
+{ market: 'ZRX-EUR',
+  open: '0.1731',
+  high: '0.1731',
+  low: '0.16426',
+  last: '0.16477',
+  volume: '22486.29651877',
+  volumeQuote: '3727.45',
+  bid: '0.16387',
+  bidSize: '901.47028373',
+  ask: '0.16423',
+  askSize: '420.66230814',
+  timestamp: 1565686663431 }
 ...
 ```
 </details>
@@ -901,7 +864,7 @@ try {
 Returns the same as get order, but can be used to return multiple orders at once.
 ```javascript
 // Function with callback
-// options: orderId, limit, start, end
+// options: limit, start, end, orderIdFrom, orderIdTo
 bitvavo.getOrders('BTC-EUR', {}, (error, response) => {
   if (error === null) {
     for (let entry of response) {
@@ -913,7 +876,7 @@ bitvavo.getOrders('BTC-EUR', {}, (error, response) => {
 })
 
 // Function with promise
-// options: orderId, limit, start, end
+// options: limit, start, end, orderIdFrom, orderIdTo
 try {
   let response = await bitvavo.getOrders('BTC-EUR', {})
   for (let entry of response) {
@@ -1135,7 +1098,7 @@ try {
 Returns all trades within a market for this account.
 ```javascript
 // Function with callback
-// options: limit, start, end, tradeId
+// options: limit, start, end, tradeIdFrom, tradeIdTo
 bitvavo.trades('LTC-EUR', {}, (error, response) => {
   if (error === null) {
     for (let entry of response) {
@@ -1147,7 +1110,7 @@ bitvavo.trades('LTC-EUR', {}, (error, response) => {
 })
 
 // Function with promise
-// options: limit, start, end, tradeId
+// options: limit, start, end, tradeIdFrom, tradeIdTo
 try {
   let response = await bitvavo.trades('BTC-EUR', {})
   for (let entry of response) {
@@ -1429,7 +1392,7 @@ try {
 
 ## Websockets
 
-All requests which can be done through REST requests can also be performed over websockets. Bitvavo also provides five [subscriptions](#subscriptions). If subscribed to these, updates specific for that type/market are pushed immediately.
+All requests which can be done through REST requests can also be performed over websockets. Bitvavo also provides six [subscriptions](#subscriptions). If subscribed to these, updates specific for that type/market are pushed immediately.
 
 ### Getting started
 
@@ -1666,7 +1629,7 @@ bitvavo.getEmitter().on('publicTrades', (response) => {
   }
 })
 
-// options: limit, start, end, tradeId
+// options: limit, start, end, tradeIdFrom, tradeIdTo
 bitvavo.websocket.publicTrades('BTC-EUR', {})
 ```
 <details>
@@ -1812,45 +1775,36 @@ bitvavo.websocket.tickerBook({})
  <summary>View Response</summary>
 
 ```javascript
-{ market: 'ANT-EUR', bid: '0.37294', ask: '0.3782' }
-{ market: 'AION-EUR', bid: '0.11375', ask: '0.11376' }
-{ market: 'AE-EUR', bid: '0.36224', ask: '0.36508' }
-{ market: 'DGB-EUR', bid: '0.010111', ask: '0.010237' }
-{ market: 'CMT-EUR', bid: '0.021978', ask: '0.022123' }
-{ market: 'BCH-EUR', bid: '100.81', ask: '101.73' }
-{ market: 'ADA-EUR', bid: '0.031411', ask: '0.031415' }
-{ market: 'ARK-EUR', bid: '0.31809', ask: '0.3181' }
-{ market: 'GAS-EUR', bid: '1.7675', ask: '1.7725' }
-{ market: 'BAT-EUR', bid: '0.12456', ask: '0.1246' }
-{ market: 'DCR-EUR', bid: '16.018', ask: '16.108' }
-{ market: 'MIOTA-EUR', bid: '0.25656', ask: '0.25846' }
-{ market: 'ETH-EUR', bid: '89.987', ask: '89.988' }
-{ market: 'RDD-EUR', bid: '0.0011564', ask: '0.0011917' }
-{ market: 'ETC-EUR', bid: '3.7418', ask: '3.7483' }
-{ market: 'NANO-EUR', bid: '0.85528', ask: '0.8575' }
-{ market: 'GNT-EUR', bid: '0.059622', ask: '0.060773' }
-{ market: 'ONT-EUR', bid: '0.58367', ask: '0.60012' }
-{ market: 'LSK-EUR', bid: '1.2082', ask: '1.2502' }
-{ market: 'VTC-EUR', bid: '0.23109', ask: '0.23318' }
-{ market: 'OMG-EUR', bid: '1.1963', ask: '1.2042' }
-{ market: 'NEO-EUR', bid: '6.1506', ask: '6.1699' }
-{ market: 'SUB-EUR', bid: '0.04089', ask: '0.041101' }
-{ market: 'QTUM-EUR', bid: '1.9849', ask: '1.9927' }
-{ market: 'STORM-EUR', bid: '0.0027308', ask: '0.0027623' }
-{ market: 'SNT-EUR', bid: '0.014299', ask: '0.014444' }
-{ market: 'VET-EUR', bid: '0.003674', ask: '0.0037079' }
-{ market: 'STEEM-EUR', bid: '0.23534', ask: '0.23579' }
-{ market: 'XEM-EUR', bid: '0.059711', ask: '0.060419' }
-{ market: 'POWR-EUR', bid: '0.068482', ask: '0.068639' }
-{ market: 'ANT-BTC', bid: '0.00011259', ask: '0.00011441' }
-{ market: 'WTC-EUR', bid: '0.97266', ask: '0.97931' }
-{ market: 'ELF-EUR', bid: '0.10122', ask: '0.10219' }
-{ market: 'XLM-EUR', bid: '0.104', ask: '0.10414' }
-{ market: 'NAS-EUR', bid: '0.54514', ask: '0.54577' }
-{ market: 'AE-BTC', bid: '0.00010942', ask: '0.00011033' }
-{ market: 'ICX-EUR', bid: '0.19765', ask: '0.19916' }
-{ market: 'ZIL-EUR', bid: '0.014306', ask: '0.014379' }
-{ market: 'AION-BTC', bid: '0.000034374', ask: '0.000034426' }
+{ market: 'XVG-BTC',
+  bid: '0.00000043',
+  ask: '0.00000044',
+  bidSize: '20520.72555668',
+  askSize: '28577.12228909' }
+{ market: 'XVG-EUR',
+  bid: '0.0043516',
+  ask: '0.0044561',
+  bidSize: '1560387.75456382',
+  askSize: '1456319.40904593' }
+{ market: 'ZIL-BTC',
+  bid: '0.00000081',
+  ask: '0.00000082',
+  bidSize: '13992.6485724',
+  askSize: '5737.46205762' }
+{ market: 'ZIL-EUR',
+  bid: '0.0081972',
+  ask: '0.0083046',
+  bidSize: '19825.02546306',
+  askSize: '19039.17428288' }
+{ market: 'ZRX-BTC',
+  bid: '0.000016184',
+  ask: '0.000016215',
+  bidSize: '827.21868459',
+  askSize: '872.2554613' }
+{ market: 'ZRX-EUR',
+  bid: '0.16378',
+  ask: '0.16417',
+  bidSize: '901.91558201',
+  askSize: '420.84088941' }
 ...
 ```
 </details>
@@ -1870,83 +1824,54 @@ bitvavo.websocket.ticker24h({})
  <summary>View Response</summary>
 
 ```javascript
-{ market: 'ADA-BTC',
-  open: '0.0000095071',
-  high: '0.0000095071',
-  low: '0.0000095071',
-  last: '0.0000095071',
-  volume: '1',
-  volumeQuote: '0.00000951' }
-{ market: 'ADA-EUR',
-  open: '0.031415',
-  high: '0.031415',
-  low: '0.031415',
-  last: '0.031415',
-  volume: '1',
-  volumeQuote: '0.03' }
-{ market: 'AE-BTC',
-  open: '0.00011033',
-  high: '0.00011033',
-  low: '0.00011033',
-  last: '0.00011033',
-  volume: '1',
-  volumeQuote: '0.00011033' }
-{ market: 'AE-EUR',
-  open: '0.36508',
-  high: '0.36508',
-  low: '0.36508',
-  last: '0.36508',
-  volume: '1',
-  volumeQuote: '0.37' }
-{ market: 'AION-BTC',
-  open: '0.000034426',
-  high: '0.000034426',
-  low: '0.000034426',
-  last: '0.000034426',
-  volume: '1',
-  volumeQuote: '0.00003443' }
-{ market: 'AION-EUR',
-  open: '0.11376',
-  high: '0.11376',
-  low: '0.11376',
-  last: '0.11376',
-  volume: '1',
-  volumeQuote: '0.11' }
-{ market: 'ANT-BTC',
-  open: '0.00011455',
-  high: '0.00011455',
-  low: '0.00011455',
-  last: '0.00011455',
-  volume: '1',
-  volumeQuote: '0.00011455' }
-{ market: 'ANT-EUR',
-  open: '0.3785',
-  high: '0.3785',
-  low: '0.3785',
-  last: '0.3785',
-  volume: '1',
-  volumeQuote: '0.38' }
-{ market: 'ARK-BTC',
-  open: '0.00009624',
-  high: '0.00009624',
-  low: '0.00009624',
-  last: '0.00009624',
-  volume: '1',
-  volumeQuote: '0.00009624' }
-{ market: 'ARK-EUR',
-  open: '0.3181',
-  high: '0.3181',
-  low: '0.3181',
-  last: '0.3181',
-  volume: '1',
-  volumeQuote: '0.32' }
-{ market: 'BAT-BTC',
-  open: '0.000037708',
-  high: '0.000037708',
-  low: '0.000037708',
-  last: '0.000037708',
-  volume: '1',
-  volumeQuote: '0.00003771' }
+{ market: 'XTZ-EUR',
+  open: '1.23',
+  high: '1.2303',
+  low: '1.211',
+  last: '1.2212',
+  volume: '6070.883854',
+  volumeQuote: '7402.08',
+  bid: '1.211',
+  bidSize: '135.55716',
+  ask: '1.2145',
+  askSize: '196.660095',
+  timestamp: 1565686663799 }
+{ market: 'XVG-EUR',
+  open: '0.0045853',
+  high: '0.0045853',
+  low: '0.0043599',
+  last: '0.0044047',
+  volume: '554786.9689017',
+  volumeQuote: '2465.30',
+  bid: '0.0043539',
+  bidSize: '1559571.35409598',
+  ask: '0.0044579',
+  askSize: '1455715.43144938',
+  timestamp: 1565686663855 }
+{ market: 'ZIL-EUR',
+  open: '0.0081309',
+  high: '0.0084196',
+  low: '0.0077389',
+  last: '0.0084042',
+  volume: '890193.39720644',
+  volumeQuote: '7220.30',
+  bid: '0.0082015',
+  bidSize: '19814.65293866',
+  ask: '0.008308',
+  askSize: '19039.17428288',
+  timestamp: 1565686663816 }
+{ market: 'ZRX-EUR',
+  open: '0.1731',
+  high: '0.1731',
+  low: '0.16426',
+  last: '0.16477',
+  volume: '22486.29651877',
+  volumeQuote: '3727.45',
+  bid: '0.16387',
+  bidSize: '901.47028373',
+  ask: '0.16423',
+  askSize: '420.66230814',
+  timestamp: 1565686663431 }
 ...
 ```
 </details>
@@ -2089,7 +2014,7 @@ bitvavo.getEmitter().on('getOrders', (response) => {
   }
 })
 
-// options: orderId, limit, start, end
+// options: limit, start, end, orderIdFrom, orderIdTo
 bitvavo.websocket.getOrders('BTC-EUR', {})
 ```
 <details>
@@ -2271,7 +2196,7 @@ bitvavo.getEmitter().on('trades', (response) => {
   }
 })
 
-// options: limit, start, end, tradeId
+// options: limit, start, end, tradeIdFrom, tradeIdTo
 bitvavo.websocket.trades('BTC-EUR', {})
 ```
 <details>
@@ -2509,7 +2434,39 @@ bitvavo.websocket.subscriptionTicker('BTC-EUR', (response) => {
  <summary>View Response</summary>
 
 ```javascript
-{ event: 'ticker', market: 'BTC-EUR', bestAsk: '3376.2' }
+{ event: 'ticker',
+  market: 'BTC-EUR',
+  bestBid: '9319.2',
+  bestBidSize: '0.10668336',
+  bestAsk: '9319.4',
+  bestAskSize: '0.10953201',
+  lastPrice: '9335' }
+```
+</details>
+
+#### Ticker 24 hour subscription
+Updated ticker24h objects are sent on this channel once per second. A ticker24h object is considered updated if one of the values besides timestamp has changed.
+```javascript
+bitvavo.websocket.subscriptionTicker24h('BTC-EUR', (response) => {
+  console.log(response)
+})
+```
+<details>
+ <summary>View Response</summary>
+
+```javascript
+{ market: 'BTC-EUR',
+  open: '10492',
+  high: '10700',
+  low: '10434',
+  last: '10478',
+  volume: '3.28126159',
+  volumeQuote: '34602.84',
+  bid: '10435',
+  ask: '10436',
+  timestamp: 1565352131873,
+  bidSize: '0.12426851',
+  askSize: '0.2554444' }
 ```
 </details>
 
