@@ -827,7 +827,7 @@ let api = function Bitvavo () {
         if (typeof subscriptionTicker24hCallback === 'undefined') subscriptionTicker24hCallback = {}
         subscriptionTicker24hCallback[market] = callback
         await this.checkSocket()
-        doSendPrivate(this.websocket, JSON.stringify({ 'action': 'subscribe', 'channels': [{ 'name': 'ticker24h', 'markets': [market] }] }))
+        doSendPublic(this.websocket, JSON.stringify({ 'action': 'subscribe', 'channels': [{ 'name': 'ticker24h', 'markets': [market] }] }))
       },
 
       subscriptionAccount: async function (market = '', callback) {
