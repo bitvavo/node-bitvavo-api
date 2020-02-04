@@ -3,8 +3,9 @@ let api = function Bitvavo () {
   const EventEmitter = require('events')
   const request = require('request')
   const crypto = require('crypto')
-  const base = 'https://api.bitvavo.com/v2'
-  const socketBase = 'wss://ws.bitvavo.com/v2/'
+
+  let base = 'https://api.bitvavo.com/v2'
+  let socketBase = 'wss://ws.bitvavo.com/v2/'
 
   const emitter = new EventEmitter()
 
@@ -364,6 +365,7 @@ let api = function Bitvavo () {
     let ws = new WebSocket(socketBase)
     this.websocket = ws
     this.websocketObject = websocketObject
+    this.websocketObject.reconnect = true
     let timestamp = Date.now()
     ws.onopen = () => {
       debugToConsole('Connected to websocket.')
@@ -379,9 +381,11 @@ let api = function Bitvavo () {
     }
     ws.onclose = (msg) => {
       startedSocket = false
-      debugToConsole('Websocket was closed, we are waiting for ' + this.reconnectTimer + ' milliseconds to reconnect.')
-      setTimeout(reconnect, this.reconnectTimer, websocketObject)
-      this.reconnectTimer = this.reconnectTimer * 2
+      if (this.websocketObject.reconnect) {
+        debugToConsole('Websocket was closed, we are waiting for ' + this.reconnectTimer + ' milliseconds to reconnect.')
+        setTimeout(reconnect, this.reconnectTimer, websocketObject)
+        this.reconnectTimer = this.reconnectTimer * 2
+      }
     }
     while (ws.readyState !== 1 && socketDidNotConnect === false) {
       await sleep(100)
@@ -631,6 +635,10 @@ let api = function Bitvavo () {
           accessWindow = options[key]
         } else if (key.toLowerCase() === 'debugging') {
           debugging = options[key]
+        } else if (key.toLowerCase() === 'resturl') {
+          base = options[key]
+        } else if (key.toLowerCase() === 'wsurl') {
+          socketBase = options[key]
         }
       }
       this.reconnectTimer = 100
@@ -646,6 +654,11 @@ let api = function Bitvavo () {
             await sleep(100)
           }
         }
+      },
+
+      close: async function () {
+        this.reconnect = false
+        this.websocket.close()
       },
 
       time: async function () {
