@@ -2,6 +2,7 @@
   <br>
   <a href="https://bitvavo.com"><img src="https://bitvavo.com/assets/static/ext/logo-shape.svg" width="100" title="Bitvavo Logo">
   <br>
+  <br>
   <a href="https://github.com/bitvavo/node-bitvavo-api.git" alt="Downloads">
   <img src="https://img.shields.io/npm/dt/bitvavo.svg?style=flat-square" /></a>
 </p>
