@@ -65,14 +65,16 @@ The general convention used in all functions (both REST and websockets), is that
 
 ### Getting started
 
-The API key and secret are required for private calls and optional for public calls. The access window and debugging parameter are optional for all calls. The access window is used to determine whether the request arrived within time, the value is specified in milliseconds. You can use the [time](#get-time) function to synchronize your time to our server time if errors arise. Debugging should be set to true when you want to log additional information and full responses. Any parameter can be omitted, private functions will return an error when the api key and secret have not been set.
+The API key and secret are required for private calls and optional for public calls. The access window and debugging parameter are optional for all calls. The access window is used to determine whether the request arrived within time, the value is specified in milliseconds. You can use the [time](#get-time) function to synchronize your time to our server time if errors arise. REST url and WS url can be used to set a different endpoint (for testing purposes). Debugging should be set to true when you want to log additional information and full responses. Any parameter can be omitted, private functions will return an error when the api key and secret have not been set.
 
 ```javascript
 const bitvavo = require('bitvavo')().options({
   APIKEY: '<APIKEY>',
   APISECRET: '<APISECRET>',
   ACCESSWINDOW: 10000,
-  DEBUGGING: true
+  RESTURL: 'https://api.bitvavo.com/v2',
+  WSURL: 'wss://ws.bitvavo.com/v2/',
+  DEBUGGING: false
 })
 ```
 Our Node wrapper functions both with [promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) and with [callbacks](https://developer.mozilla.org/en-US/docs/Glossary/Callback_function). This means that the following two functions have the same effect.
@@ -237,6 +239,9 @@ try {
   withdrawalFee: '0.2',
   withdrawalMinAmount: '0.2',
   withdrawalStatus: 'OK',
+  networks: [
+    'Mainnet'
+  ],
   message: '' }
 { symbol: 'BAT',
   name: 'Basic Attention Token',
@@ -247,6 +252,9 @@ try {
   withdrawalFee: '7',
   withdrawalMinAmount: '7',
   withdrawalStatus: 'OK',
+  networks: [
+    'Mainnet'
+  ],
   message: '' }
 { symbol: 'BCH',
   name: 'Bitcoin Cash',
@@ -257,6 +265,9 @@ try {
   withdrawalFee: '0.0001',
   withdrawalMinAmount: '0.00001',
   withdrawalStatus: 'OK',
+  networks: [
+    'Mainnet'
+  ],
   message: '' }
 { symbol: 'BTC',
   name: 'Bitcoin',
@@ -267,6 +278,9 @@ try {
   withdrawalFee: '0.00006',
   withdrawalMinAmount: '0.00001',
   withdrawalStatus: 'OK',
+  networks: [
+    'Mainnet'
+  ],
   message: '' }
   ...  
 ```
@@ -1516,6 +1530,9 @@ bitvavo.websocket.assets({})
   withdrawalFee: '0.2',
   withdrawalMinAmount: '0.2',
   withdrawalStatus: 'OK',
+  networks: [
+    'Mainnet'
+  ],
   message: '' }
 { symbol: 'BAT',
   name: 'Basic Attention Token',
@@ -1526,6 +1543,9 @@ bitvavo.websocket.assets({})
   withdrawalFee: '7',
   withdrawalMinAmount: '7',
   withdrawalStatus: 'OK',
+  networks: [
+    'Mainnet'
+  ],
   message: '' }
 { symbol: 'BCH',
   name: 'Bitcoin Cash',
@@ -1536,6 +1556,9 @@ bitvavo.websocket.assets({})
   withdrawalFee: '0.0001',
   withdrawalMinAmount: '0.00001',
   withdrawalStatus: 'OK',
+  networks: [
+    'Mainnet'
+  ],
   message: '' }
 { symbol: 'BTC',
   name: 'Bitcoin',
@@ -1546,6 +1569,9 @@ bitvavo.websocket.assets({})
   withdrawalFee: '0.00006',
   withdrawalMinAmount: '0.00001',
   withdrawalStatus: 'OK',
+  networks: [
+    'Mainnet'
+  ],
   message: '' }
   ...  
 ```
