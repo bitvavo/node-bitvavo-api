@@ -211,6 +211,15 @@ let testPlaceOrder = async () => {
   } catch (error) {
     console.log(error)
   }
+
+  // StopLoss
+  bitvavo.placeOrder('BTC-EUR', 'sell', 'stopLoss', { amount: '0.1', triggerType: 'price', triggerReference: 'lastTrade', triggerAmount: '5000' }, (error, response) => {
+    if (error === null) {
+      console.log(response)
+    } else {
+      console.log(error)
+    }
+  })
 }
 
 let testGetOrder = async () => {
@@ -348,6 +357,23 @@ let testTrades = async () => {
   }
 }
 
+let testAccount = async () => {
+  bitvavo.account((error, response) => {
+    if (error == null) {
+      console.log(response)
+    } else {
+      console.log(error)
+    }
+  })
+
+  try {
+    let response = await bitvavo.account()
+    console.log(response)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 let testBalance = async () => {
   bitvavo.balance({}, (error, response) => {
     if (error == null) {
@@ -468,6 +494,7 @@ let testRestApi = async () => {
 
   // testTrades()
 
+  // testAccount()
   // testBalance()
   // testDepositAssets()
   // testWithdrawAssets()
@@ -529,6 +556,9 @@ let websocketSetListeners = async () => {
   emitter.on('trades', (response) => {
     console.log('TradesResponse', response)
   })
+  emitter.on('account', (response) => {
+    console.log('AccountResponse', response)
+  })
   emitter.on('balance', (response) => {
     console.log('BalanceResponse', response)
   })
@@ -571,6 +601,7 @@ let testWebSockets = async () => {
   // bitvavo.websocket.ordersOpen({ market: 'BTC-EUR' })
   // bitvavo.websocket.trades('BTC-EUR', {})
 
+  // bitvavo.websocket.account()
   // bitvavo.websocket.balance({})
   // bitvavo.websocket.depositAssets('BTC')
   // bitvavo.websocket.withdrawAssets('BTC', '1', 'BitcoinAddress', {})

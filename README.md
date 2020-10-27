@@ -31,6 +31,7 @@ This is the Node.js wrapper for the Bitvavo API. This project can be used to bui
   * Cancel Orders       [REST](#cancel-orders) [Websocket](#cancel-orders-1)
   * Orders Open         [REST](#get-orders-open) [Websocket](#get-orders-open-1)
   * Trades              [REST](#get-trades) [Websocket](#get-trades-1)
+  * Account             [REST](#get-account) [Websocket](#get-account-1)
   * Balance             [REST](#get-balance) [Websocket](#get-balance-1)
   * Deposit Assets     [REST](#deposit-assets) [Websocket](#deposit-assets-1)
   * Withdraw Assets   [REST](#withdraw-assets) [Websocket](#withdraw-assets-1)
@@ -703,7 +704,9 @@ When placing an order, make sure that the correct optional parameters are set. F
 ```javascript
 // Function with callback
 // Optional parameters: limit:(amount, price, postOnly), market:(amount, amountQuote, disableMarketProtection),
-// both: timeInForce, selfTradePrevention, responseRequired
+//                      stopLoss/takeProfit:(amount, amountQuote, disableMarketProtection, triggerType, triggerReference, triggerAmount)
+//                      stopLossLimit/takeProfitLimit:(amount, price, postOnly, triggerType, triggerReference, triggerAmount)
+//                      all orderTypes: timeInForce, selfTradePrevention, responseRequired
 bitvavo.placeOrder('BTC-EUR', 'sell', 'limit', { amount: '1', price: '3000' }, (error, response) => {
   if (error === null) {
     console.log(response)
@@ -714,7 +717,9 @@ bitvavo.placeOrder('BTC-EUR', 'sell', 'limit', { amount: '1', price: '3000' }, (
 
 // Function with promise
 // Optional parameters: limit:(amount, price, postOnly), market:(amount, amountQuote, disableMarketProtection),
-// both: timeInForce, selfTradePrevention, responseRequired
+//                      stopLoss/takeProfit:(amount, amountQuote, disableMarketProtection, triggerType, triggerReference, triggerAmount)
+//                      stopLossLimit/takeProfitLimit:(amount, price, postOnly, triggerType, triggerReference, triggerAmount)
+//                      all orderTypes: timeInForce, selfTradePrevention, responseRequired
 try {
   let response = await bitvavo.placeOrder('BTC-EUR', 'sell', 'limit', { 'amount': '1', 'price': 3000 })
   console.log(response)
@@ -754,7 +759,9 @@ try {
 When updating an order make sure that at least one of the optional parameters has been set. Otherwise nothing can be updated.
 ```javascript
 // Function with callback
-// Optional parameters: limit:(amount, price, timeInForce, selfTradePrevention, postOnly) (set at least 1)
+// Optional parameters: limit:(amount, amountRemaining, price, timeInForce, selfTradePrevention, postOnly)
+//          untriggered stopLoss/takeProfit:(amount, amountQuote, disableMarketProtection, triggerType, triggerReference, triggerAmount)
+//                      stopLossLimit/takeProfitLimit: (amount, price, postOnly, triggerType, triggerReference, triggerAmount)
 bitvavo.updateOrder('BTC-EUR', 'bb4076a3-d7b6-4bf6-aa35-b12f14fcb092', { price: 4500 }, (error, response) => {
   if (error === null) {
     console.log(response)
@@ -765,7 +772,8 @@ bitvavo.updateOrder('BTC-EUR', 'bb4076a3-d7b6-4bf6-aa35-b12f14fcb092', { price: 
 
 // Function with promise
 // Optional parameters: limit:(amount, amountRemaining, price, timeInForce, selfTradePrevention, postOnly)
-// (set at least 1) (responseRequired can be set as well, but does not update anything)
+//          untriggered stopLoss/takeProfit:(amount, amountQuote, disableMarketProtection, triggerType, triggerReference, triggerAmount)
+//                      stopLossLimit/takeProfitLimit: (amount, price, postOnly, triggerType, triggerReference, triggerAmount)
 try {
   let response = await bitvavo.updateOrder('BTC-EUR', 'bb4076a3-d7b6-4bf6-aa35-b12f14fcb092', { amount: 0.2 })
   console.log(response)
@@ -1172,6 +1180,40 @@ try {
     settled: true },
   ...
 ]
+```
+</details>
+
+#### Get account
+Returns the fee tier for this account.
+```javascript
+// Function with callback
+bitvavo.account((error, response) => {
+  if (error == null) {
+    console.log(response)
+  } else {
+    console.log(error)
+  }
+})
+
+// Function with promise
+try {
+  let response = await bitvavo.account()
+  console.log(response)
+} catch (error) {
+  console.log(error)
+}
+```
+<details>
+  <summary>View Response</summary>
+
+```javascript
+{
+  fees: {
+    taker: '0.0025'
+    maker: '0.0015'
+    volume: '100.00'
+  }
+}
 ```
 </details>
 
@@ -1913,7 +1955,9 @@ bitvavo.getEmitter().on('placeOrder', (response) => {
 })
 
 // Optional parameters: limit:(amount, price, postOnly), market:(amount, amountQuote, disableMarketProtection),
-// both: timeInForce, selfTradePrevention, responseRequired
+//                      stopLoss/takeProfit:(amount, amountQuote, disableMarketProtection, triggerType, triggerReference, triggerAmount)
+//                      stopLossLimit/takeProfitLimit:(amount, price, postOnly, triggerType, triggerReference, triggerAmount)
+//                      all orderTypes: timeInForce, selfTradePrevention, responseRequired
 bitvavo.websocket.placeOrder('BTC-EUR', 'buy', 'limit', { amount: 0.1, price: 5000 })
 ```
 <details>
@@ -1951,7 +1995,8 @@ bitvavo.getEmitter().on('updateOrder', (response) => {
 })
 
 // Optional parameters: limit:(amount, amountRemaining, price, timeInForce, selfTradePrevention, postOnly)
-// (set at least 1) (responseRequired can be set as well, but does not update anything)
+//          untriggered stopLoss/takeProfit:(amount, amountQuote, disableMarketProtection, triggerType, triggerReference, triggerAmount)
+//                      stopLossLimit/takeProfitLimit: (amount, price, postOnly, triggerType, triggerReference, triggerAmount)
 bitvavo.websocket.updateOrder('BTC-EUR', 'bb4076a3-d7b6-4bf6-aa35-b12f14fcb092', { amount: '0.2' })
 ```
 <details>
@@ -2276,6 +2321,29 @@ bitvavo.websocket.trades('BTC-EUR', {})
   feeCurrency: 'EUR',
   settled: true }
 ...
+```
+</details>
+
+#### Get account
+Returns the fee tier for this account.
+```javascript
+bitvavo.getEmitter().on('account', (response) => {
+  console.log(response)
+})
+
+bitvavo.websocket.account()
+```
+<details>
+  <summary>View Response</summary>
+
+```javascript
+{
+  fees: {
+    taker: '0.0025'
+    maker: '0.0015'
+    volume: '100'
+  }
+}
 ```
 </details>
 
