@@ -247,6 +247,9 @@ let api = function Bitvavo () {
         case 'privateGetTrades':
           emitter.emit('trades', response.response)
           break
+        case 'privateGetAccount':
+          emitter.emit('account', response.response)
+          break
         case 'privateGetBalance':
           emitter.emit('balance', response.response)
           break
@@ -535,7 +538,10 @@ let api = function Bitvavo () {
       return publicRequest((base + '/ticker/24h' + postfix), callback)
     },
 
-    // Optional body parameters: limit:(amount, price, postOnly), market:(amount, amountQuote, disableMarketProtection), both: timeInForce, selfTradePrevention, responseRequired
+    // Optional body parameters: limit:(amount, price, postOnly), market:(amount, amountQuote, disableMarketProtection)
+    //                           stopLoss/takeProfit:(amount, amountQuote, disableMarketProtection, triggerType, triggerReference, triggerAmount)
+    //                           stopLossLimit/takeProfitLimit:(amount, price, postOnly, triggerType, triggerReference, triggerAmount)
+    //                           all orderTypes: timeInForce, selfTradePrevention, responseRequired
     placeOrder: function (market = '', side = '', orderType = '', body = {}, callback = false) {
       body.market = market
       body.side = side
@@ -550,7 +556,8 @@ let api = function Bitvavo () {
     },
 
     // Optional body parameters: limit:(amount, amountRemaining, price, timeInForce, selfTradePrevention, postOnly)
-    // (set at least 1) (responseRequired can be set as well, but does not update anything)
+    //               untriggered stopLoss/takeProfit:(amount, amountQuote, disableMarketProtection, triggerType, triggerReference, triggerAmount)
+    //                           stopLossLimit/takeProfitLimit: (amount, price, postOnly, triggerType, triggerReference, triggerAmount)
     updateOrder: function (market = '', orderId = '', body = {}, callback = false) {
       body.market = market
       body.orderId = orderId
@@ -591,6 +598,10 @@ let api = function Bitvavo () {
       if (typeof symbol === 'function') callback = symbol
       if (typeof options === 'function') callback = options
       return privateRequest('/trades', postfix, callback)
+    },
+
+    account: function (callback = false) {
+      return privateRequest('/account', '', callback)
     },
 
     // options: symbol
@@ -726,7 +737,10 @@ let api = function Bitvavo () {
         doSendPublic(this.websocket, JSON.stringify(options))
       },
 
-      // Optional body parameters: limit:(amount, price, postOnly), market:(amount, amountQuote, disableMarketProtection), both: timeInForce, selfTradePrevention, responseRequired
+      // Optional body parameters: limit:(amount, price, postOnly), market:(amount, amountQuote, disableMarketProtection)
+      //                           stopLoss/takeProfit:(amount, amountQuote, disableMarketProtection, triggerType, triggerReference, triggerAmount)
+      //                           stopLossLimit/takeProfitLimit:(amount, price, postOnly, triggerType, triggerReference, triggerAmount)
+      //                           all orderTypes: timeInForce, selfTradePrevention, responseRequired
       placeOrder: async function (market = '', side = '', orderType = '', body = {}) {
         await this.checkSocket()
         body.action = 'privateCreateOrder'
@@ -745,7 +759,8 @@ let api = function Bitvavo () {
       },
 
       // Optional body parameters: limit:(amount, amountRemaining, price, timeInForce, selfTradePrevention, postOnly)
-      // (set at least 1) (responseRequired can be set as well, but does not update anything)
+      //               untriggered stopLoss/takeProfit:(amount, amountQuote, disableMarketProtection, triggerType, triggerReference, triggerAmount)
+      //                           stopLossLimit/takeProfitLimit: (amount, price, postOnly, triggerType, triggerReference, triggerAmount)
       updateOrder: async function (market = '', orderId = '', body = {}) {
         await this.checkSocket()
         body.action = 'privateUpdateOrder'
@@ -789,6 +804,12 @@ let api = function Bitvavo () {
         await this.checkSocket()
         options.action = 'privateGetTrades'
         options.market = market
+        doSendPrivate(this.websocket, JSON.stringify(options))
+      },
+
+      account: async function () {
+        await this.checkSocket()
+        options = { action: 'privateGetAccount' }
         doSendPrivate(this.websocket, JSON.stringify(options))
       },
 
