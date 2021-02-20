@@ -333,6 +333,11 @@ let api = function Bitvavo () {
         ws.subscriptionTicker(market, subscriptionTickerCallback[market])
       }
     }
+    if (typeof subscriptionTicker24hCallback !== 'undefined') {
+      for (let market in subscriptionTicker24hCallback) {
+        ws.subscriptionTicker(market, subscriptionTicker24hCallback[market])
+      }
+    }
     if (typeof subscriptionAccountCallback !== 'undefined') {
       for (let market in subscriptionAccountCallback) {
         ws.subscriptionAccount(market, subscriptionAccountCallback[market])
