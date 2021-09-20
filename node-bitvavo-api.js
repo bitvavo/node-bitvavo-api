@@ -466,7 +466,7 @@ let api = function Bitvavo () {
     })
   }
 
-  return {
+  const apiObject = {
     getEmitter: function () {
       emitterReturned = true
       return emitter
@@ -653,7 +653,7 @@ let api = function Bitvavo () {
         }
       }
       this.reconnectTimer = 100
-      return this
+      return apiObject
     },
     websocket: {
       checkSocket: async function () {
@@ -905,5 +905,7 @@ let api = function Bitvavo () {
       }
     }
   }
+
+  return apiObject
 }
 module.exports = api
