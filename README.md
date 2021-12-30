@@ -45,6 +45,7 @@ This is the Node.js wrapper for the Bitvavo API. This project can be used to bui
   * [Trades Subscription](#trades-subscription)
   * [Book Subscription](#book-subscription)
   * [Book Subscription With Local Copy](#book-subscription-with-local-copy)
+  * [Unsubscribe](#unsubscribe)
 
 ## Installation
 ```
@@ -2743,3 +2744,9 @@ bitvavo.websocket.subscriptionBook('LTC-EUR', (book) => {
   nonce: 41175 }
 ```
 </details>
+
+#### Unsubscribe
+Unsubscribe from a previously opened websocket connection.
+```javascript
+bitvavo.websocket.unsubscribe('LTC-EUR', 'account')
+```

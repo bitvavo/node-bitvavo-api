@@ -902,6 +902,11 @@ let api = function Bitvavo () {
         await this.checkSocket()
         doSendPublic(this.websocket, JSON.stringify({ 'action': 'getBook', 'market': market }))
         doSendPublic(this.websocket, JSON.stringify({ 'action': 'subscribe', 'channels': [{ 'name': 'book', 'markets': [market] }] }))
+      },
+
+      unsubscribe: async function (market = '', name) {
+        if (typeof name === 'undefined') errorToConsole('Specify which channel you want to unsubscribe from (such as: ticker, ticker24h, candles, trades, account and book.)')
+        doSendPrivate(this.websocket, JSON.stringify({ 'action': 'unsubscribe', 'channels': [{ 'name': name, 'markets': [market] }] }))
       }
     }
   }
