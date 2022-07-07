@@ -408,10 +408,10 @@ let api = function Bitvavo () {
       let timestamp = Date.now()
       let sig = createSignature(timestamp, method, url.replace(base, ''), data)
       options.headers = {
-        'Bitvavo-Access-Key': apiKey,
-        'Bitvavo-Access-Signature': sig,
-        'Bitvavo-Access-Timestamp': timestamp,
-        'Bitvavo-Access-Window': accessWindow
+        'bitvavo-access-key': apiKey,
+        'bitvavo-access-signature': sig,
+        'bitvavo-access-timestamp': timestamp,
+        'bitvavo-access-window': accessWindow
       }
     }
     return new Promise((resolve, reject) => {
@@ -440,10 +440,10 @@ let api = function Bitvavo () {
       json: true,
       timeout: 30000,
       headers: {
-        'Bitvavo-Access-Key': apiKey,
-        'Bitvavo-Access-Signature': sig,
-        'Bitvavo-Access-Timestamp': timestamp,
-        'Bitvavo-Access-Window': accessWindow
+        'bitvavo-access-key': apiKey,
+        'bitvavo-access-signature': sig,
+        'bitvavo-access-timestamp': timestamp,
+        'bitvavo-access-window': accessWindow
       }
     }
     if (Object.keys(body).length !== 0) {
