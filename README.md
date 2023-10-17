@@ -706,7 +706,7 @@ When placing an order, make sure that the correct optional parameters are set. F
 // Optional parameters: limit:(amount, price, postOnly), market:(amount, amountQuote, disableMarketProtection),
 //                      stopLoss/takeProfit:(amount, amountQuote, disableMarketProtection, triggerType, triggerReference, triggerAmount)
 //                      stopLossLimit/takeProfitLimit:(amount, price, postOnly, triggerType, triggerReference, triggerAmount)
-//                      all orderTypes: timeInForce, selfTradePrevention, responseRequired
+//                      all orderTypes: timeInForce, selfTradePrevention, responseRequired, clientOrderId
 bitvavo.placeOrder('BTC-EUR', 'sell', 'limit', { amount: '1', price: '3000' }, (error, response) => {
   if (error === null) {
     console.log(response)
@@ -719,7 +719,7 @@ bitvavo.placeOrder('BTC-EUR', 'sell', 'limit', { amount: '1', price: '3000' }, (
 // Optional parameters: limit:(amount, price, postOnly), market:(amount, amountQuote, disableMarketProtection),
 //                      stopLoss/takeProfit:(amount, amountQuote, disableMarketProtection, triggerType, triggerReference, triggerAmount)
 //                      stopLossLimit/takeProfitLimit:(amount, price, postOnly, triggerType, triggerReference, triggerAmount)
-//                      all orderTypes: timeInForce, selfTradePrevention, responseRequired
+//                      all orderTypes: timeInForce, selfTradePrevention, responseRequired, clientOrderId
 try {
   let response = await bitvavo.placeOrder('BTC-EUR', 'sell', 'limit', { 'amount': '1', 'price': 3000 })
   console.log(response)
@@ -731,7 +731,8 @@ try {
  <summary>View Response</summary>
 
 ```javascript
-{ orderId: '6a57e514-60aa-4a91-8958-5e70fa5c0ed3',
+{
+  orderId: '6a57e514-60aa-4a91-8958-5e70fa5c0ed3',
   market: 'BTC-EUR',
   created: 1548668202114,
   updated: 1548668202114,
@@ -751,7 +752,9 @@ try {
   selfTradePrevention: 'decrementAndCancel',
   visible: true,
   timeInForce: 'GTC',
-  postOnly: false }
+  postOnly: false,
+  clientOrderId: 'bb4076a3-d7b6-4bf6-aa35-b12f14fcb092'
+}
 ```
 </details>
 
@@ -811,8 +814,10 @@ try {
 
 #### Get order
 ```javascript
+// Optional parameters: orderId, clientOrderId
+
 // Function with callback
-bitvavo.getOrder('BTC-EUR', '6a57e514-60aa-4a91-8958-5e70fa5c0ed3', (error, response) => {
+bitvavo.getOrder('BTC-EUR', undefined, '0fc09a0a-ac77-4923-a06b-68b5c23fe6ec', (error, response) => {
   if (error === null) {
     console.log(response)
   } else {
@@ -822,7 +827,7 @@ bitvavo.getOrder('BTC-EUR', '6a57e514-60aa-4a91-8958-5e70fa5c0ed3', (error, resp
 
 // Function with promise
 try {
-  let response = await bitvavo.getOrder('BTC-EUR', '6a57e514-60aa-4a91-8958-5e70fa5c0ed3')
+  let response = await bitvavo.getOrder('BTC-EUR', undefined, '0fc09a0a-ac77-4923-a06b-68b5c23fe6ec')
   console.log(response)
 } catch (error) {
   console.log(error)
@@ -832,7 +837,8 @@ try {
  <summary>View Response</summary>
 
 ```javascript
-{ orderId: '6a57e514-60aa-4a91-8958-5e70fa5c0ed3',
+{
+  orderId: '6a57e514-60aa-4a91-8958-5e70fa5c0ed3',
   market: 'BTC-EUR',
   created: 1548668202114,
   updated: 1548668202114,
@@ -852,7 +858,9 @@ try {
   selfTradePrevention: 'decrementAndCancel',
   visible: true,
   timeInForce: 'GTC',
-  postOnly: false }
+  postOnly: false,
+  clientOrderId: '0fc09a0a-ac77-4923-a06b-68b5c23fe6ec'
+}
 ```
 </details>
 
@@ -914,7 +922,8 @@ try {
 
 ```javascript
 [
-  { orderId: '6a57e514-60aa-4a91-8958-5e70fa5c0ed3',
+  {
+    orderId: '6a57e514-60aa-4a91-8958-5e70fa5c0ed3',
     market: 'BTC-EUR',
     created: 1548668202114,
     updated: 1548668368746,
@@ -934,8 +943,11 @@ try {
     selfTradePrevention: 'decrementAndCancel',
     visible: true,
     timeInForce: 'GTC',
-    postOnly: false },
-  { orderId: 'b8c6c4d1-eb8c-4b24-83e1-fcced3df168d',
+    postOnly: false,
+    clientOrderId: '0fc09a0a-ac77-4923-a06b-68b5c23fe6ec'
+  },
+  {
+    orderId: 'b8c6c4d1-eb8c-4b24-83e1-fcced3df168d',
     market: 'BTC-EUR',
     created: 1548666712066,
     updated: 1548666712066,
@@ -955,8 +967,11 @@ try {
     selfTradePrevention: 'decrementAndCancel',
     visible: true,
     timeInForce: 'GTC',
-    postOnly: false },
-  { orderId: '198a85ce-1cb2-44b9-acb1-6cb9a1dde555',
+    postOnly: false,
+    clientOrderId: 'f1ea3b4c-a23c-4913-83b2-3c4756a3078a'
+  },
+  {
+    orderId: '198a85ce-1cb2-44b9-acb1-6cb9a1dde555',
     market: 'BTC-EUR',
     created: 1548666514216,
     updated: 1548666514216,
@@ -976,8 +991,11 @@ try {
     selfTradePrevention: 'decrementAndCancel',
     visible: true,
     timeInForce: 'GTC',
-    postOnly: false },
-  { orderId: 'e68dd35c-156b-4f50-92d8-ff24623fba03',
+    postOnly: false,
+    clientOrderId: 'f08242ea-7bbb-441f-acae-20f0a3d11ffe'
+  },
+  {
+    orderId: 'e68dd35c-156b-4f50-92d8-ff24623fba03',
     market: 'BTC-EUR',
     created: 1548666373398,
     updated: 1548666373398,
@@ -997,7 +1015,9 @@ try {
     selfTradePrevention: 'decrementAndCancel',
     visible: true,
     timeInForce: 'GTC',
-    postOnly: false }
+    postOnly: false,
+    clientOrderId: '2fc50e19-e164-4613-b49f-70b8953b1fe6'
+  }
     ...
 ]
 ```
@@ -1148,7 +1168,8 @@ try {
 
 ```javascript
 [ 
-  { id: '79e4bf2f-4fac-4895-9bb2-a5c9c6e2ff3f',
+  {
+    id: '79e4bf2f-4fac-4895-9bb2-a5c9c6e2ff3f',
     timestamp: 1548666712071,
     market: 'BTC-EUR',
     side: 'buy',
@@ -1157,8 +1178,11 @@ try {
     taker: true,
     fee: '1',
     feeCurrency: 'EUR',
-    settled: true },
-  { id: '102486d3-5b72-4fa2-89cf-84c934edb7ae',
+    settled: true,
+    clientOrderId: '13351170-21d0-4855-ae1e-d71c0cb2828e'
+  },
+  {
+    id: '102486d3-5b72-4fa2-89cf-84c934edb7ae',
     timestamp: 1548666561486,
     market: 'BTC-EUR',
     side: 'buy',
@@ -1167,8 +1191,11 @@ try {
     taker: false,
     fee: '0.8',
     feeCurrency: 'EUR',
-    settled: true },
-  { id: '965facc7-b3c3-43d0-8a1d-30a2f782ee17',
+    settled: true,
+    clientOrderId: 'ae0bb95e-4862-4318-88c5-bd0d2b69566b'
+  },
+  {
+    id: '965facc7-b3c3-43d0-8a1d-30a2f782ee17',
     timestamp: 1548666373407,
     market: 'BTC-EUR',
     side: 'buy',
@@ -1177,7 +1204,9 @@ try {
     taker: true,
     fee: '1',
     feeCurrency: 'EUR',
-    settled: true },
+    settled: true,
+    clientOrderId: 'd750696b-5843-48ad-9d29-5b60ff67c142'
+  },
   ...
 ]
 ```
@@ -1957,7 +1986,7 @@ bitvavo.getEmitter().on('placeOrder', (response) => {
 // Optional parameters: limit:(amount, price, postOnly), market:(amount, amountQuote, disableMarketProtection),
 //                      stopLoss/takeProfit:(amount, amountQuote, disableMarketProtection, triggerType, triggerReference, triggerAmount)
 //                      stopLossLimit/takeProfitLimit:(amount, price, postOnly, triggerType, triggerReference, triggerAmount)
-//                      all orderTypes: timeInForce, selfTradePrevention, responseRequired
+//                      all orderTypes: timeInForce, selfTradePrevention, responseRequired, clientOrderId
 bitvavo.websocket.placeOrder('BTC-EUR', 'buy', 'limit', { amount: 0.1, price: 5000 })
 ```
 <details>
@@ -2032,13 +2061,15 @@ bitvavo.getEmitter().on('getOrder', (response) => {
   console.log(response)
 })
 
-bitvavo.websocket.getOrder('BTC-EUR', 'bb4076a3-d7b6-4bf6-aa35-b12f14fcb092')
+// Optional parameters: orderId, clientOrderId
+bitvavo.websocket.getOrder('BTC-EUR', { clientOrderId: '2fc50e19-e164-4613-b49f-70b8953b1fe6' })
 ```
 <details>
  <summary>View Response</summary>
 
 ```javascript
-{ orderId: 'bb4076a3-d7b6-4bf6-aa35-b12f14fcb092',
+{
+  orderId: 'bb4076a3-d7b6-4bf6-aa35-b12f14fcb092',
   market: 'BTC-EUR',
   created: 1543482451221,
   updated: 1543482646215,
@@ -2057,7 +2088,9 @@ bitvavo.websocket.getOrder('BTC-EUR', 'bb4076a3-d7b6-4bf6-aa35-b12f14fcb092')
   selfTradePrevention: 'decrementAndCancel',
   visible: true,
   timeInForce: 'GTC',
-  postOnly: false }
+  postOnly: false,
+  clientOrderId: '2fc50e19-e164-4613-b49f-70b8953b1fe6'
+}
 ```
 </details>
 
@@ -2093,7 +2126,8 @@ bitvavo.websocket.getOrders('BTC-EUR', {})
  <summary>View Response</summary>
 
 ```javascript
-{ orderId: '99e9a45b-26c8-4079-9da2-f0f42e008edb',
+{
+  orderId: '99e9a45b-26c8-4079-9da2-f0f42e008edb',
   market: 'BTC-EUR',
   created: 1543482451253,
   updated: 1543482902905,
@@ -2112,8 +2146,11 @@ bitvavo.websocket.getOrders('BTC-EUR', {})
   selfTradePrevention: 'decrementAndCancel',
   visible: false,
   timeInForce: 'GTC',
-  postOnly: false }
-{ orderId: 'bb4076a3-d7b6-4bf6-aa35-b12f14fcb092',
+  postOnly: false,
+  clientOrderId: '2fc50e19-e164-4613-b49f-70b8953b1fe6'
+},
+{
+  orderId: 'bb4076a3-d7b6-4bf6-aa35-b12f14fcb092',
   market: 'BTC-EUR',
   created: 1543482451221,
   updated: 1543482902930,
@@ -2132,8 +2169,11 @@ bitvavo.websocket.getOrders('BTC-EUR', {})
   selfTradePrevention: 'decrementAndCancel',
   visible: false,
   timeInForce: 'GTC',
-  postOnly: false }
-{ orderId: 'baf3eca0-36c1-41c9-b21f-8f46e45f9ff5',
+  postOnly: false,
+  clientOrderId: '8e6c4a2b-d55b-42d7-94f6-3a6b88295c8e'
+},
+{
+  orderId: 'baf3eca0-36c1-41c9-b21f-8f46e45f9ff5',
   market: 'BTC-EUR',
   created: 1543229981645,
   updated: 1543229993276,
@@ -2152,7 +2192,9 @@ bitvavo.websocket.getOrders('BTC-EUR', {})
   selfTradePrevention: 'decrementAndCancel',
   visible: false,
   timeInForce: 'GTC',
-  postOnly: false }
+  postOnly: false,
+  clientOrderId: 'e4c66a7f-ec6e-4ba9-86bc-af3a7a735c09'
+},
   ...
 ```
 </details>
@@ -2195,7 +2237,8 @@ bitvavo.websocket.ordersOpen({})
  <summary>View Response</summary>
 
 ```javascript
-{ orderId: '96cd3157-a6cb-4d7f-9a1d-8041c29dc982',
+[{
+  orderId: '96cd3157-a6cb-4d7f-9a1d-8041c29dc982',
   market: 'BTC-EUR',
   created: 1545216249448,
   updated: 1545216249448,
@@ -2214,8 +2257,11 @@ bitvavo.websocket.ordersOpen({})
   selfTradePrevention: 'decrementAndCancel',
   visible: true,
   timeInForce: 'GTC',
-  postOnly: false }
-{ orderId: 'd74440fa-f5d2-48f6-b279-933d84442a8e',
+  postOnly: false,
+  clientOrderId: 'e4c66a7f-ec6e-4ba9-86bc-af3a7a735c09'
+},
+{
+  orderId: 'd74440fa-f5d2-48f6-b279-933d84442a8e',
   market: 'BTC-EUR',
   created: 1545216266588,
   updated: 1545216266588,
@@ -2234,8 +2280,11 @@ bitvavo.websocket.ordersOpen({})
   selfTradePrevention: 'decrementAndCancel',
   visible: true,
   timeInForce: 'GTC',
-  postOnly: false }
-{ orderId: 'f9f4e3b2-de48-4f55-8c98-23fe39f20806',
+  postOnly: false,
+  clientOrderId: '83a7f9f6-ff55-4375-90a5-0a44216d00d1'
+},
+{
+  orderId: 'f9f4e3b2-de48-4f55-8c98-23fe39f20806',
   market: 'BTC-EUR',
   created: 1545216276974,
   updated: 1545216276974,
@@ -2254,7 +2303,9 @@ bitvavo.websocket.ordersOpen({})
   selfTradePrevention: 'decrementAndCancel',
   visible: true,
   timeInForce: 'GTC',
-  postOnly: false }
+  postOnly: false,
+  clientOrderId: '13351170-21d0-4855-ae1e-d71c0cb2828e'
+},
 ...
 ```
 </details>
@@ -2275,7 +2326,10 @@ bitvavo.websocket.trades('BTC-EUR', {})
  <summary>View Response</summary>
 
 ```javascript
-{ timestamp: 1545213249947,
+[{
+  id: '93fd9d6e-16a5-46c7-8a51-7237429d0532',
+  orderId: '08a88e63-abe1-4205-a3ea-a430d60b0423',
+  timestamp: 1545213249947,
   market: 'BTC-EUR',
   side: 'buy',
   amount: '0.001',
@@ -2283,8 +2337,13 @@ bitvavo.websocket.trades('BTC-EUR', {})
   taker: true,
   fee: '0.0099',
   feeCurrency: 'EUR',
-  settled: true }
-{ timestamp: 1545213234550,
+  settled: true,
+  clientOrderId: '13351170-21d0-4855-ae1e-d71c0cb2828e'
+},
+{
+  id: 'b9eadfa5-cd6b-4051-9318-a95a26c5df30',
+  orderId: '08a88e63-abe1-4205-a3ea-a430d60b0423',
+  timestamp: 1545213234550,
   market: 'BTC-EUR',
   side: 'buy',
   amount: '0.003039',
@@ -2292,8 +2351,13 @@ bitvavo.websocket.trades('BTC-EUR', {})
   taker: true,
   fee: '0.0242057',
   feeCurrency: 'EUR',
-  settled: true }
-{ timestamp: 1545213234535,
+  settled: true,
+  clientOrderId: '13351170-21d0-4855-ae1e-d71c0cb2828e'
+},
+{
+  id: 'd750696b-5843-48ad-9d29-5b60ff67c142',
+  orderId: '08a88e63-abe1-4205-a3ea-a430d60b0423',
+  timestamp: 1545213234535,
   market: 'BTC-EUR',
   side: 'buy',
   amount: '0.003039',
@@ -2301,8 +2365,13 @@ bitvavo.websocket.trades('BTC-EUR', {})
   taker: true,
   fee: '0.0342631',
   feeCurrency: 'EUR',
-  settled: true }
-{ timestamp: 1545213234521,
+  settled: true,
+  clientOrderId: '13351170-21d0-4855-ae1e-d71c0cb2828e'
+},
+{
+  id: '1126bfd1-90e8-4a2b-92c4-35385805cf19',
+  orderId: '2917abf4-00b0-403d-ab20-3ff5ad1c4d69',
+  timestamp: 1545213234521,
   market: 'BTC-EUR',
   side: 'buy',
   amount: '0.00303191',
@@ -2310,8 +2379,13 @@ bitvavo.websocket.trades('BTC-EUR', {})
   taker: true,
   fee: '0.024468971',
   feeCurrency: 'EUR',
-  settled: true }
-{ timestamp: 1545213234508,
+  settled: true,
+  clientOrderId: '83a7f9f6-ff55-4375-90a5-0a44216d00d1'
+},
+{
+  id: '59910ac3-0c2c-4fab-961b-7678a26e2c43',
+  orderId: '2917abf4-00b0-403d-ab20-3ff5ad1c4d69',
+  timestamp: 1545213234508,
   market: 'BTC-EUR',
   side: 'buy',
   amount: '0.003039',
@@ -2319,7 +2393,9 @@ bitvavo.websocket.trades('BTC-EUR', {})
   taker: true,
   fee: '0.0243205',
   feeCurrency: 'EUR',
-  settled: true }
+  settled: true,
+  clientOrderId: '83a7f9f6-ff55-4375-90a5-0a44216d00d1'
+},
 ...
 ```
 </details>
