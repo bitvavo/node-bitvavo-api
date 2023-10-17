@@ -1,6 +1,6 @@
 <p align="center">
   <br>
-  <a href="https://bitvavo.com"><img src="https://bitvavo.com/assets/static/ext/logo-shape.svg" width="100" title="Bitvavo Logo">
+  <a href="https://bitvavo.com"><img src="./docs/assets/bitvavo-mark-square-blue.svg" width="100" title="Bitvavo Logo">
   <br>
   <br>
   <a href="https://github.com/bitvavo/node-bitvavo-api.git" alt="Downloads">
@@ -817,20 +817,20 @@ try {
 // Optional parameters: orderId, clientOrderId
 
 // Function with callback
-bitvavo.getOrder('BTC-EUR', undefined, '0fc09a0a-ac77-4923-a06b-68b5c23fe6ec', (error, response) => {
+bitvavo.getOrder('BTC-EUR', { clientOrderId: '0fc09a0a-ac77-4923-a06b-68b5c23fe6ec' }, (error, response) => {
   if (error === null) {
-    console.log(response)
+    console.log(response);
   } else {
-    console.log(error)
+    console.log(error);
   }
-})
+});
 
 // Function with promise
 try {
-  let response = await bitvavo.getOrder('BTC-EUR', undefined, '0fc09a0a-ac77-4923-a06b-68b5c23fe6ec')
-  console.log(response)
+  const response = await bitvavo.getOrder('BTC-EUR', { clientOrderId: '0fc09a0a-ac77-4923-a06b-68b5c23fe6ec' });
+  console.log(response);
 } catch (error) {
-  console.log(error)
+  console.log(error);
 }
 ```
 <details>
