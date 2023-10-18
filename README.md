@@ -1500,6 +1500,9 @@ bitvavo.websocket.time()
 
 The api key and secret are copied from the bitvavo object. Therefore if you want to use the private portion of the websockets API, you should set both the key and secret as specified in [REST requests](#rest-requests).
 
+### requestId
+It is possible to include a numeric `requestId` in the request to uniquely identify it, and this ID will always be returned in the response, even in case of errors.
+
 ### Public
 
 #### Get time
