@@ -45,6 +45,7 @@ To trade and execute your advanced trading strategies, Bitvavo SDK for Node.js i
   * [Trades Subscription](#trades-subscription)
   * [Book Subscription](#book-subscription)
   * [Book Subscription With Local Copy](#book-subscription-with-local-copy)
+  * [Unsubscribe](#unsubscribe)
 
 ## Installation
 ```
@@ -2822,3 +2823,14 @@ bitvavo.websocket.subscriptionBook('LTC-EUR', (book) => {
   nonce: 41175 }
 ```
 </details>
+
+#### Unsubscribe
+Unsubscribe from a previously opened websocket connection.
+```javascript
+bitvavo.websocket.unsubscribe('LTC-EUR', 'account')
+```
+<details>
+ <summary>View Response</summary>
+```javascript
+{ event: 'unsubscribed', subscriptions: {} }
+```

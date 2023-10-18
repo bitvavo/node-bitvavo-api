@@ -1,6 +1,6 @@
 {
     "name": "bitvavo",
-    "version": "1.2.2",
+    "version": "1.2.3",
     "description": "This is the NodeJS wrapper for the Bitvavo API",
     "main": "node-bitvavo-api.js",
     "directories": {
@@ -25,5 +25,4 @@
       "url": "https://github.com/bitvavo/node-bitvavo-api/issues"
     },
     "homepage": "https://github.com/bitvavo/node-bitvavo-api#readme"
-  }
-  
+}
