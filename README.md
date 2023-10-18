@@ -1,14 +1,14 @@
-<p align="center">
-  <br>
-  <a href="https://bitvavo.com"><img src="./docs/assets/bitvavo-mark-square-blue.svg" width="100" title="Bitvavo Logo">
-  <br>
-  <br>
-  <a href="https://github.com/bitvavo/node-bitvavo-api.git" alt="Downloads">
-  <img src="https://img.shields.io/npm/dt/bitvavo.svg?style=flat-square" /></a>
-</p>
+<table>
+  <tr>
+    <td><a href="https://bitvavo.com"><img alt="Bitvavo" src="docs/assets/bitvavo-mark-square-blue.svg" width="100" title="Bitvavo Logo"></a></td>
+    <td><h1>Bitvavo SDK for Node.js</h1></td>
+  </tr>
+</table>
 
-# Node Bitvavo Api
-This is the Node.js wrapper for the Bitvavo API. This project can be used to build your own projects which interact with the Bitvavo platform. Every function available on the API can be called through a REST request or over websockets. For info on the specifics of every parameter consult the [Bitvavo API documentation](https://docs.bitvavo.com/)
+Crypto starts with Bitvavo. 
+You use Bitvavo SDK for Node.js to buy, sell, and store over 200 digital assets on Bitvavo from inside your app. 
+
+To trade and execute your advanced trading strategies, Bitvavo SDK for Node.js is a wrapper that enables you to easily call every endpoint in [Bitvavo API](https://docs.bitvavo.com/). Every function available on the API can be called through a REST request or over Websocket.
 
 * Getting started       [REST](#getting-started) [Websocket](#getting-started-1)
 * General
