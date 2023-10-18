@@ -48,6 +48,10 @@ let api = function Bitvavo () {
     })
   }
 
+  function isObject(parameter) {
+    return typeof parameter === 'object' && parameter !== null;
+  }
+
   const createSignature = function (timestamp, method, url, body) {
     let string = timestamp + method + '/v2' + url
     if (Object.keys(body).length !== 0) {
@@ -549,9 +553,14 @@ let api = function Bitvavo () {
       return privateRequest('/order', '', callback, body, 'POST')
     },
 
-    getOrder: function (symbol = '', orderId = '', callback = false) {
-      let params = { 'market': symbol, 'orderId': orderId }
-      let postfix = createPostfix(params)
+    getOrder: function (market = '', options = {}, callback = false) {
+      if (typeof options === 'string') {
+        options = { orderId: options };
+      }
+      if (!isObject(options)) throw new Error('Second parameter "options" is not an object');
+
+      const params = { market, orderId: options.orderId ?? '', clientOrderId: options.clientOrderId ?? '' };
+      const postfix = createPostfix(params);
       return privateRequest('/order', postfix, callback)
     },
 
@@ -750,12 +759,15 @@ let api = function Bitvavo () {
         doSendPrivate(this.websocket, JSON.stringify(body))
       },
 
-      getOrder: async function (market = '', orderId = '') {
-        await this.checkSocket()
-        let options = { 'action': 'privateGetOrder' }
-        options.market = market
-        options.orderId = orderId
-        doSendPrivate(this.websocket, JSON.stringify(options))
+      getOrder: async function (market = '', options = {}) {
+        if (typeof options === 'string') {
+          options = { orderId: options };
+        }
+        if (!isObject(options)) throw new Error('Second parameter "options" is not an object');
+
+        await this.checkSocket();
+        const message = { 'action': 'privateGetOrder',  market, orderId: options.orderId, clientOrderId: options.clientOrderId };
+        doSendPrivate(this.websocket, JSON.stringify(message));
       },
 
       // Optional body parameters: limit:(amount, amountRemaining, price, timeInForce, selfTradePrevention, postOnly)
