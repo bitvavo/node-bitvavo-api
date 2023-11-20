@@ -9,6 +9,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@aws-crypto/sha256-js": "^5.2.0",
     "events": "^3.3.0",
     "request": "^2.88.2",
     "ws": "^8.14.2"
