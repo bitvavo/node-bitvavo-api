@@ -1,4 +1,4 @@
-let api = function Bitvavo () {
+let api = function Bitvavo() {
   const WebSocket = require('ws')
   const EventEmitter = require('events')
   const request = require('request')
@@ -21,7 +21,13 @@ let api = function Bitvavo () {
   let socketDidNotConnect = false
   let emitterReturned = false
 
-  let subscriptionTickerCallback, subscriptionTicker24hCallback, subscriptionAccountCallback, subscriptionCandlesCallback, subscriptionBookUpdatesCallback, subscriptionTradesCallback, subscriptionBookCallback
+  let subscriptionTickerCallback,
+    subscriptionTicker24hCallback,
+    subscriptionAccountCallback,
+    subscriptionCandlesCallback,
+    subscriptionBookUpdatesCallback,
+    subscriptionTradesCallback,
+    subscriptionBookCallback
   let localBook, keepLocalBookCopy
 
   const debugToConsole = function (message, object = null) {
@@ -42,14 +48,14 @@ let api = function Bitvavo () {
     }
   }
 
-  function sleep (ms) {
-    return new Promise(resolve => {
+  function sleep(ms) {
+    return new Promise((resolve) => {
       setTimeout(resolve, ms)
     })
   }
 
   function isObject(parameter) {
-    return typeof parameter === 'object' && parameter !== null;
+    return typeof parameter === 'object' && parameter !== null
   }
 
   const createSignature = function (timestamp, method, url, body) {
@@ -62,12 +68,14 @@ let api = function Bitvavo () {
   }
 
   const createPostfix = function (options) {
-    let params = Object.keys(options).reduce((a, k) => {
-      if (options[k].length !== 0) {
-        a.push(k + '=' + encodeURIComponent(options[k]))
-      }
-      return a
-    }, []).join('&')
+    let params = Object.keys(options)
+      .reduce((a, k) => {
+        if (options[k].length !== 0) {
+          a.push(k + '=' + encodeURIComponent(options[k]))
+        }
+        return a
+      }, [])
+      .join('&')
     if (Object.keys(options).length > 0) {
       params = '?' + params
     }
@@ -179,13 +187,17 @@ let api = function Bitvavo () {
       try {
         emitter.emit('error', response)
       } catch (error) {
-        errorToConsole('We are trying to emit an error. But you forgot to set the emitter\'s on error, consult getting started with websockets in the readme.')
+        errorToConsole(
+          "We are trying to emit an error. But you forgot to set the emitter's on error, consult getting started with websockets in the readme.",
+        )
       }
     } else if ('authenticated' in response) {
       this.authenticated = true
     } else if ('action' in response) {
       if (emitterReturned === false && typeof keepLocalBookCopy === 'undefined') {
-        errorToConsole('We have received a response, but you did not request the emitter in the right manner, please consult getting started with websockets in the readme.')
+        errorToConsole(
+          'We have received a response, but you did not request the emitter in the right manner, please consult getting started with websockets in the readme.',
+        )
         return
       }
       switch (response.action) {
@@ -383,7 +395,16 @@ let api = function Bitvavo () {
       debugToConsole('Connected to websocket.')
       socketDidNotConnect = false
       if (apiKey !== '') {
-        doSendPublic(ws, JSON.stringify({ 'action': 'authenticate', 'key': apiKey, 'signature': createSignature(timestamp, 'GET', '/websocket', {}), 'timestamp': timestamp, 'window': accessWindow }))
+        doSendPublic(
+          ws,
+          JSON.stringify({
+            'action': 'authenticate',
+            'key': apiKey,
+            'signature': createSignature(timestamp, 'GET', '/websocket', {}),
+            'timestamp': timestamp,
+            'window': accessWindow,
+          }),
+        )
       }
     }
     ws.onmessage = (msg) => handleSocketResponse(JSON.parse(msg.data))
@@ -394,7 +415,9 @@ let api = function Bitvavo () {
     ws.onclose = (msg) => {
       startedSocket = false
       if (this.websocketObject.reconnect) {
-        debugToConsole('Websocket was closed, we are waiting for ' + this.reconnectTimer + ' milliseconds to reconnect.')
+        debugToConsole(
+          'Websocket was closed, we are waiting for ' + this.reconnectTimer + ' milliseconds to reconnect.',
+        )
         setTimeout(reconnect, this.reconnectTimer, websocketObject)
         this.reconnectTimer = this.reconnectTimer * 2
       }
@@ -410,7 +433,7 @@ let api = function Bitvavo () {
       method: method,
       url: url,
       json: true,
-      timeout: 30000
+      timeout: 30000,
     }
     debugToConsole('REQUEST:', options)
     if (apiKey !== '') {
@@ -420,7 +443,7 @@ let api = function Bitvavo () {
         'bitvavo-access-key': apiKey,
         'bitvavo-access-signature': sig,
         'bitvavo-access-timestamp': timestamp,
-        'bitvavo-access-window': accessWindow
+        'bitvavo-access-window': accessWindow,
       }
     }
     return new Promise((resolve, reject) => {
@@ -442,7 +465,7 @@ let api = function Bitvavo () {
   const privateRequest = function (urlEndpoint, urlParams, callback, body = {}, method = 'GET') {
     let url = base + urlEndpoint + urlParams
     let timestamp = Date.now()
-    let sig = createSignature(timestamp, method, (urlEndpoint + urlParams), body)
+    let sig = createSignature(timestamp, method, urlEndpoint + urlParams, body)
     let options = {
       method: method,
       url: url,
@@ -452,8 +475,8 @@ let api = function Bitvavo () {
         'bitvavo-access-key': apiKey,
         'bitvavo-access-signature': sig,
         'bitvavo-access-timestamp': timestamp,
-        'bitvavo-access-window': accessWindow
-      }
+        'bitvavo-access-window': accessWindow,
+      },
     }
     if (Object.keys(body).length !== 0) {
       options.body = body
@@ -486,33 +509,33 @@ let api = function Bitvavo () {
     },
 
     time: function (callback = false) {
-      return publicRequest((base + '/time'), callback)
+      return publicRequest(base + '/time', callback)
     },
 
     // options: market
     markets: function (options = {}, callback = false) {
       let postfix = createPostfix(options)
-      return publicRequest((base + '/markets' + postfix), callback)
+      return publicRequest(base + '/markets' + postfix, callback)
     },
 
     // options: symbol
     assets: function (options = {}, callback = false) {
       let postfix = createPostfix(options)
-      return publicRequest((base + '/assets' + postfix), callback)
+      return publicRequest(base + '/assets' + postfix, callback)
     },
 
     // options: depth
     book: function (symbol = '', options = {}, callback = false) {
       let postfix = createPostfix(options)
       if (typeof options === 'function') callback = options
-      return publicRequest((base + '/' + symbol + '/book' + postfix), callback)
+      return publicRequest(base + '/' + symbol + '/book' + postfix, callback)
     },
 
     // options: limit, start, end, tradeIdFrom, tradeIdTo
     publicTrades: function (symbol = '', options = {}, callback = false) {
       let postfix = createPostfix(options)
       if (typeof options === 'function') callback = options
-      return publicRequest((base + '/' + symbol + '/trades' + postfix), callback)
+      return publicRequest(base + '/' + symbol + '/trades' + postfix, callback)
     },
 
     // options: limit, start, end
@@ -520,7 +543,7 @@ let api = function Bitvavo () {
       options.interval = interval
       let postfix = createPostfix(options)
       if (typeof options === 'function') callback = options
-      return publicRequest((base + '/' + symbol + '/candles' + postfix), callback)
+      return publicRequest(base + '/' + symbol + '/candles' + postfix, callback)
     },
 
     // options: market
@@ -528,7 +551,7 @@ let api = function Bitvavo () {
       let postfix = createPostfix(options)
       if (typeof options === 'function') callback = options
 
-      return publicRequest((base + '/ticker/price' + postfix), callback)
+      return publicRequest(base + '/ticker/price' + postfix, callback)
     },
 
     // options: market
@@ -536,7 +559,7 @@ let api = function Bitvavo () {
       let postfix = createPostfix(options)
       if (typeof options === 'function') callback = options
 
-      return publicRequest((base + '/ticker/book' + postfix), callback)
+      return publicRequest(base + '/ticker/book' + postfix, callback)
     },
 
     // options: market
@@ -544,7 +567,7 @@ let api = function Bitvavo () {
       let postfix = createPostfix(options)
       if (typeof options === 'function') callback = options
 
-      return publicRequest((base + '/ticker/24h' + postfix), callback)
+      return publicRequest(base + '/ticker/24h' + postfix, callback)
     },
 
     // Optional body parameters: limit:(amount, price, postOnly), market:(amount, amountQuote, disableMarketProtection)
@@ -560,12 +583,12 @@ let api = function Bitvavo () {
 
     getOrder: function (market = '', options = {}, callback = false) {
       if (typeof options === 'string') {
-        options = { orderId: options };
+        options = { orderId: options }
       }
-      if (!isObject(options)) throw new Error('Second parameter "options" is not an object');
+      if (!isObject(options)) throw new Error('Second parameter "options" is not an object')
 
-      const params = { market, orderId: options.orderId ?? '', clientOrderId: options.clientOrderId ?? '' };
-      const postfix = createPostfix(params);
+      const params = { market, orderId: options.orderId ?? '', clientOrderId: options.clientOrderId ?? '' }
+      const postfix = createPostfix(params)
       return privateRequest('/order', postfix, callback)
     },
 
@@ -766,13 +789,18 @@ let api = function Bitvavo () {
 
       getOrder: async function (market = '', options = {}) {
         if (typeof options === 'string') {
-          options = { orderId: options };
+          options = { orderId: options }
         }
-        if (!isObject(options)) throw new Error('Second parameter "options" is not an object');
+        if (!isObject(options)) throw new Error('Second parameter "options" is not an object')
 
-        await this.checkSocket();
-        const message = { 'action': 'privateGetOrder',  market, orderId: options.orderId, clientOrderId: options.clientOrderId };
-        doSendPrivate(this.websocket, JSON.stringify(message));
+        await this.checkSocket()
+        const message = {
+          'action': 'privateGetOrder',
+          market,
+          orderId: options.orderId,
+          clientOrderId: options.clientOrderId,
+        }
+        doSendPrivate(this.websocket, JSON.stringify(message))
       },
 
       // Optional body parameters: limit:(amount, amountRemaining, price, timeInForce, selfTradePrevention, postOnly)
@@ -871,21 +899,30 @@ let api = function Bitvavo () {
         if (typeof subscriptionTickerCallback === 'undefined') subscriptionTickerCallback = {}
         subscriptionTickerCallback[market] = callback
         await this.checkSocket()
-        doSendPublic(this.websocket, JSON.stringify({ 'action': 'subscribe', 'channels': [{ 'name': 'ticker', 'markets': [market] }] }))
+        doSendPublic(
+          this.websocket,
+          JSON.stringify({ 'action': 'subscribe', 'channels': [{ 'name': 'ticker', 'markets': [market] }] }),
+        )
       },
 
       subscriptionTicker24h: async function (market = '', callback) {
         if (typeof subscriptionTicker24hCallback === 'undefined') subscriptionTicker24hCallback = {}
         subscriptionTicker24hCallback[market] = callback
         await this.checkSocket()
-        doSendPublic(this.websocket, JSON.stringify({ 'action': 'subscribe', 'channels': [{ 'name': 'ticker24h', 'markets': [market] }] }))
+        doSendPublic(
+          this.websocket,
+          JSON.stringify({ 'action': 'subscribe', 'channels': [{ 'name': 'ticker24h', 'markets': [market] }] }),
+        )
       },
 
       subscriptionAccount: async function (market = '', callback) {
         if (typeof subscriptionAccountCallback === 'undefined') subscriptionAccountCallback = {}
         subscriptionAccountCallback[market] = callback
         await this.checkSocket()
-        doSendPrivate(this.websocket, JSON.stringify({ 'action': 'subscribe', 'channels': [{ 'name': 'account', 'markets': [market] }] }))
+        doSendPrivate(
+          this.websocket,
+          JSON.stringify({ 'action': 'subscribe', 'channels': [{ 'name': 'account', 'markets': [market] }] }),
+        )
       },
 
       subscriptionCandles: async function (market = '', interval = '', callback) {
@@ -893,21 +930,33 @@ let api = function Bitvavo () {
         if (typeof subscriptionCandlesCallback[market] === 'undefined') subscriptionCandlesCallback[market] = {}
         subscriptionCandlesCallback[market][interval] = callback
         await this.checkSocket()
-        doSendPublic(this.websocket, JSON.stringify({ 'action': 'subscribe', 'channels': [{ 'name': 'candles', 'interval': [interval], 'markets': [market] }] }))
+        doSendPublic(
+          this.websocket,
+          JSON.stringify({
+            'action': 'subscribe',
+            'channels': [{ 'name': 'candles', 'interval': [interval], 'markets': [market] }],
+          }),
+        )
       },
 
       subscriptionTrades: async function (market = '', callback) {
         if (typeof subscriptionTradesCallback === 'undefined') subscriptionTradesCallback = {}
         subscriptionTradesCallback[market] = callback
         await this.checkSocket()
-        doSendPublic(this.websocket, JSON.stringify({ 'action': 'subscribe', 'channels': [{ 'name': 'trades', 'markets': [market] }] }))
+        doSendPublic(
+          this.websocket,
+          JSON.stringify({ 'action': 'subscribe', 'channels': [{ 'name': 'trades', 'markets': [market] }] }),
+        )
       },
 
       subscriptionBookUpdates: async function (market = '', callback) {
         if (typeof subscriptionBookUpdatesCallback === 'undefined') subscriptionBookUpdatesCallback = {}
         subscriptionBookUpdatesCallback[market] = callback
         await this.checkSocket()
-        doSendPublic(this.websocket, JSON.stringify({ 'action': 'subscribe', 'channels': [{ 'name': 'book', 'markets': [market] }] }))
+        doSendPublic(
+          this.websocket,
+          JSON.stringify({ 'action': 'subscribe', 'channels': [{ 'name': 'book', 'markets': [market] }] }),
+        )
       },
 
       subscriptionBook: async function (market = '', callback) {
@@ -918,15 +967,24 @@ let api = function Bitvavo () {
         keepLocalBookCopy[market] = true
         await this.checkSocket()
         doSendPublic(this.websocket, JSON.stringify({ 'action': 'getBook', 'market': market }))
-        doSendPublic(this.websocket, JSON.stringify({ 'action': 'subscribe', 'channels': [{ 'name': 'book', 'markets': [market] }] }))
+        doSendPublic(
+          this.websocket,
+          JSON.stringify({ 'action': 'subscribe', 'channels': [{ 'name': 'book', 'markets': [market] }] }),
+        )
       },
 
       unsubscribe: async function (market = '', name = undefined) {
-        if (typeof name === 'undefined') errorToConsole('Specify which channel you want to unsubscribe from (such as: ticker, ticker24h, candles, trades, account and book.)');
-        await this.checkSocket();
-        doSendPrivate(this.websocket, JSON.stringify({ 'action': 'unsubscribe', 'channels': [{ 'name': name, 'markets': [market] }] }));
-      }
-    }
+        if (typeof name === 'undefined')
+          errorToConsole(
+            'Specify which channel you want to unsubscribe from (such as: ticker, ticker24h, candles, trades, account and book.)',
+          )
+        await this.checkSocket()
+        doSendPrivate(
+          this.websocket,
+          JSON.stringify({ 'action': 'unsubscribe', 'channels': [{ 'name': name, 'markets': [market] }] }),
+        )
+      },
+    },
   }
 }
 module.exports = api
