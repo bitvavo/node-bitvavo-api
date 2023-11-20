@@ -2,10 +2,10 @@
   "name": "bitvavo",
   "version": "1.2.3",
   "description": "This is the NodeJS wrapper for the Bitvavo API",
-  "main": "node-bitvavo-api.js",
+  "main": "lib/index.js",
   "scripts": {
-    "format:check": "prettier --check *.js example/*.js",
-    "format:write": "prettier --write *.js example/*.js"
+    "format:check": "prettier --check lib/*.js example/*.js",
+    "format:write": "prettier --write lib/*.js example/*.js"
   },
   "dependencies": {
     "events": "^3.3.0",
@@ -32,6 +32,6 @@
   "files": [
     "LICENSE.txt",
     "README.md",
-    "node-bitvavo-api.js"
+    "lib"
   ]
 }
