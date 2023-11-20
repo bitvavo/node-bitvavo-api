@@ -16,3 +16,4 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
       - run: npm ci
       - run: npm run format:check
+      - run: npm test

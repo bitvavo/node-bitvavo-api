@@ -4,8 +4,9 @@
   "description": "This is the NodeJS wrapper for the Bitvavo API",
   "main": "lib/index.js",
   "scripts": {
-    "format:check": "prettier --check lib/*.js example/*.js",
-    "format:write": "prettier --write lib/*.js example/*.js"
+    "format:check": "prettier --check lib/*.js example/*.js test/*.js",
+    "format:write": "prettier --write lib/*.js example/*.js test/*.js",
+    "test": "jest"
   },
   "dependencies": {
     "events": "^3.3.0",
@@ -13,6 +14,7 @@
     "ws": "^8.14.2"
   },
   "devDependencies": {
+    "jest": "^29.7.0",
     "prettier": "^3.1.0"
   },
   "repository": {
