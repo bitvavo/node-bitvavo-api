@@ -1,28 +1,28 @@
 {
-    "name": "bitvavo",
-    "version": "1.2.3",
-    "description": "This is the NodeJS wrapper for the Bitvavo API",
-    "main": "node-bitvavo-api.js",
-    "directories": {
-      "example": "example"
-    },
-    "dependencies": {
-      "events": "^3.3.0",
-      "request": "^2.88.2",
-      "ws": "^8.14.2"
-    },
-    "repository": {
-      "type": "git",
-      "url": "git+https://github.com/bitvavo/node-bitvavo-api.git"
-    },
-    "keywords": [
-      "Node",
-      "Bitvavo"
-    ],
-    "author": "Bitvavo",
-    "license": "ISC",
-    "bugs": {
-      "url": "https://github.com/bitvavo/node-bitvavo-api/issues"
-    },
-    "homepage": "https://github.com/bitvavo/node-bitvavo-api#readme"
+  "name": "bitvavo",
+  "version": "1.2.3",
+  "description": "This is the NodeJS wrapper for the Bitvavo API",
+  "main": "node-bitvavo-api.js",
+  "directories": {
+    "example": "example"
+  },
+  "dependencies": {
+    "events": "^3.3.0",
+    "request": "^2.88.2",
+    "ws": "^8.14.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bitvavo/node-bitvavo-api.git"
+  },
+  "keywords": [
+    "Node",
+    "Bitvavo"
+  ],
+  "author": "Bitvavo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bitvavo/node-bitvavo-api/issues"
+  },
+  "homepage": "https://github.com/bitvavo/node-bitvavo-api#readme"
 }
