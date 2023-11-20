@@ -31,5 +31,10 @@
   "bugs": {
     "url": "https://github.com/bitvavo/node-bitvavo-api/issues"
   },
-  "homepage": "https://github.com/bitvavo/node-bitvavo-api#readme"
+  "homepage": "https://github.com/bitvavo/node-bitvavo-api#readme",
+  "files": [
+    "LICENSE.txt",
+    "README.md",
+    "node-bitvavo-api.js"
+  ]
 }
