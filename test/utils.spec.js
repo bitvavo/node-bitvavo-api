@@ -25,15 +25,16 @@ describe('utils', () => {
     })
 
     it('should encode a POST request', async () => {
-      await expect(
-        createSignature(SECRET, 1548172481125, 'POST', '/order', {
-          market: 'BTC-EUR',
-          side: 'buy',
-          price: '5000',
-          amount: '1.23',
-          orderType: 'limit',
-        }),
-      ).resolves.toBe('44d022723a20973a18f7ee97398b9fdd405d2d019c8d39e24b8cc0dcb39ca016')
+      const body = JSON.stringify({
+        market: 'BTC-EUR',
+        side: 'buy',
+        price: '5000',
+        amount: '1.23',
+        orderType: 'limit',
+      })
+      await expect(createSignature(SECRET, 1548172481125, 'POST', '/order', body)).resolves.toBe(
+        '44d022723a20973a18f7ee97398b9fdd405d2d019c8d39e24b8cc0dcb39ca016',
+      )
     })
   })
 

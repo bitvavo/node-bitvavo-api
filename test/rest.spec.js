@@ -1,5 +1,6 @@
-const Bitvavo = require('../lib/index')
 const nock = require('nock')
+const { Headers } = require('cross-fetch')
+const Bitvavo = require('../lib/index')
 const { createSignature } = require('../lib/utils')
 
 describe('rest', () => {
@@ -42,10 +43,11 @@ describe('rest', () => {
     })
 
     async function verifyHeaders(req) {
-      const timestamp = req.headers['bitvavo-access-timestamp']
+      const headers = new Headers(req.headers)
+      const timestamp = Number(headers.get('bitvavo-access-timestamp'))
       const signature = await createSignature(SECRET, timestamp, 'GET', '/time')
-      expect(req.headers['bitvavo-access-key']).toBe(KEY)
-      expect(req.headers['bitvavo-access-signature']).toBe(signature)
+      expect(headers.get('bitvavo-access-key')).toBe(KEY)
+      expect(headers.get('bitvavo-access-signature')).toBe(signature)
     }
   })
 })
