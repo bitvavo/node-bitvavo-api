@@ -1,6 +1,20 @@
-const { isObject, sleep } = require('../lib/utils')
+const { isObject, sleep, createPostfix } = require('../lib/utils')
 
 describe('utils', () => {
+  describe('createPostfix', () => {
+    it('should encode an empty object as an empty string', () => {
+      expect(createPostfix({})).toBe('')
+    })
+
+    it('should encode parameters as a query string', () => {
+      expect(createPostfix({ first: 42, second: 'str', third: false })).toBe('?first=42&second=str&third=false')
+    })
+
+    it('should encode special characters', () => {
+      expect(createPostfix({ special: '%+& /' })).toBe('?special=%25%2B%26%20%2F')
+    })
+  })
+
   describe('isObject', () => {
     it('should return true for an object', () => {
       expect(isObject({})).toBe(true)
