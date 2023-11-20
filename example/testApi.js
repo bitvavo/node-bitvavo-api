@@ -12,7 +12,7 @@ const bitvavo = require('bitvavo')().options({
   ACCESSWINDOW: 10000,
   RESTURL: 'https://api.bitvavo.com/v2',
   WSURL: 'wss://ws.bitvavo.com/v2/',
-  DEBUGGING: false
+  DEBUGGING: false,
 })
 
 let testTime = async () => {
@@ -213,13 +213,19 @@ let testPlaceOrder = async () => {
   }
 
   // StopLoss
-  bitvavo.placeOrder('BTC-EUR', 'sell', 'stopLoss', { amount: '0.1', triggerType: 'price', triggerReference: 'lastTrade', triggerAmount: '5000' }, (error, response) => {
-    if (error === null) {
-      console.log(response)
-    } else {
-      console.log(error)
-    }
-  })
+  bitvavo.placeOrder(
+    'BTC-EUR',
+    'sell',
+    'stopLoss',
+    { amount: '0.1', triggerType: 'price', triggerReference: 'lastTrade', triggerAmount: '5000' },
+    (error, response) => {
+      if (error === null) {
+        console.log(response)
+      } else {
+        console.log(error)
+      }
+    },
+  )
 }
 
 let testGetOrder = async () => {
@@ -240,16 +246,24 @@ let testGetOrder = async () => {
 }
 
 let testUpdateOrder = async () => {
-  bitvavo.updateOrder('BTC-EUR', 'aadbb500-835e-4ae9-b881-e2f18d1c1bff', { amount: '0.3', price: '6000' }, (error, response) => {
-    if (error === null) {
-      console.log(response)
-    } else {
-      console.log(error)
-    }
-  })
+  bitvavo.updateOrder(
+    'BTC-EUR',
+    'aadbb500-835e-4ae9-b881-e2f18d1c1bff',
+    { amount: '0.3', price: '6000' },
+    (error, response) => {
+      if (error === null) {
+        console.log(response)
+      } else {
+        console.log(error)
+      }
+    },
+  )
 
   try {
-    let response = await bitvavo.updateOrder('BTC-EUR', 'aadbb500-835e-4ae9-b881-e2f18d1c1bff', { amount: 0.2, price: '7000' })
+    let response = await bitvavo.updateOrder('BTC-EUR', 'aadbb500-835e-4ae9-b881-e2f18d1c1bff', {
+      amount: 0.2,
+      price: '7000',
+    })
     console.log(response)
   } catch (error) {
     console.log(error)
