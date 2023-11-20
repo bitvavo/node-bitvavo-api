@@ -32,8 +32,8 @@ describe('rest', () => {
     })
 
     it('getTime', async () => {
-      scope.get('/v2/time').reply(200, function () {
-        verifyHeaders(this.req)
+      scope.get('/v2/time').reply(200, async function () {
+        await verifyHeaders(this.req)
         return { time: 1700000000000 }
       })
 
@@ -41,9 +41,9 @@ describe('rest', () => {
       expect(res).toEqual({ time: 1700000000000 })
     })
 
-    function verifyHeaders(req) {
+    async function verifyHeaders(req) {
       const timestamp = req.headers['bitvavo-access-timestamp']
-      const signature = createSignature(SECRET, timestamp, 'GET', '/time')
+      const signature = await createSignature(SECRET, timestamp, 'GET', '/time')
       expect(req.headers['bitvavo-access-key']).toBe(KEY)
       expect(req.headers['bitvavo-access-signature']).toBe(signature)
     }
