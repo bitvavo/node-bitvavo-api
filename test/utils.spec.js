@@ -18,22 +18,23 @@ describe('utils', () => {
   describe('createSignature', () => {
     const SECRET = 'bitvavo'
 
-    it('should encode a GET request', () => {
-      expect(createSignature(SECRET, 1548175200641, 'GET', '/websocket')).toBe(
+    it('should encode a GET request', async () => {
+      await expect(createSignature(SECRET, 1548175200641, 'GET', '/websocket')).resolves.toBe(
         '653fc0505431c63a043273da4bd2f0927eae83948d796084f313e5d1131b0d6f',
       )
     })
 
-    it('should encode a POST request', () => {
-      expect(
-        createSignature(SECRET, 1548172481125, 'POST', '/order', {
-          market: 'BTC-EUR',
-          side: 'buy',
-          price: '5000',
-          amount: '1.23',
-          orderType: 'limit',
-        }),
-      ).toBe('44d022723a20973a18f7ee97398b9fdd405d2d019c8d39e24b8cc0dcb39ca016')
+    it('should encode a POST request', async () => {
+      const body = JSON.stringify({
+        market: 'BTC-EUR',
+        side: 'buy',
+        price: '5000',
+        amount: '1.23',
+        orderType: 'limit',
+      })
+      await expect(createSignature(SECRET, 1548172481125, 'POST', '/order', body)).resolves.toBe(
+        '44d022723a20973a18f7ee97398b9fdd405d2d019c8d39e24b8cc0dcb39ca016',
+      )
     })
   })
 
