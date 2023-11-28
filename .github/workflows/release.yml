@@ -21,8 +21,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Set author in Git
         run: |
-          git config --local user.email support@bitvavo.com
-          git config --local user.name "Bitvavo B.V."
+          git config --local user.email 71278578+bitvavo-bot@users.noreply.github.com
+          git config --local user.name bitvavo-bot
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ env.node_version }}
