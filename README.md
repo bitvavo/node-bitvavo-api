@@ -3,35 +3,35 @@
 Crypto starts with Bitvavo. 
 You use Bitvavo SDK for Node.js to buy, sell, and store over 200 digital assets on Bitvavo from inside your app. 
 
-To trade and execute your advanced trading strategies, Bitvavo SDK for Node.js is a wrapper that enables you to easily call every endpoint in [Bitvavo API](https://docs.bitvavo.com/). Every function available on the API can be called through a REST request or over Websocket.
+To trade and execute your advanced trading strategies, Bitvavo SDK for Node.js is a wrapper that enables you to easily call every endpoint in [Bitvavo API](https://docs.bitvavo.com/). Every function available on the API can be called through a REST request or over WebSocket.
 
-* Getting started       [REST](#getting-started) [Websocket](#getting-started-1)
+* Getting started       [REST](#getting-started) [WebSocket](#getting-started-1)
 * General
-  * Time                [REST](#get-time) [Websocket](#get-time-1)
-  * Markets             [REST](#get-markets) [Websocket](#get-markets-1)
-  * Assets              [REST](#get-assets) [Websocket](#get-assets-1)
+  * Time                [REST](#get-time) [WebSocket](#get-time-1)
+  * Markets             [REST](#get-markets) [WebSocket](#get-markets-1)
+  * Assets              [REST](#get-assets) [WebSocket](#get-assets-1)
 * Market Data
-  * Book                [REST](#get-book-per-market) [Websocket](#get-book-per-market-1)
-  * Public Trades       [REST](#get-trades-per-market) [Websocket](#get-trades-per-market-1)
-  * Candles             [REST](#get-candles-per-market) [Websocket](#get-candles-per-market-1)
-  * Price Ticker        [REST](#get-price-ticker) [Websocket](#get-price-ticker-1)
-  * Book Ticker         [REST](#get-book-ticker) [Websocket](#get-book-ticker-1)
-  * 24 Hour Ticker      [REST](#get-24-hour-ticker) [Websocket](#get-24-hour-ticker-1)
+  * Book                [REST](#get-book-per-market) [WebSocket](#get-book-per-market-1)
+  * Public Trades       [REST](#get-trades-per-market) [WebSocket](#get-trades-per-market-1)
+  * Candles             [REST](#get-candles-per-market) [WebSocket](#get-candles-per-market-1)
+  * Price Ticker        [REST](#get-price-ticker) [WebSocket](#get-price-ticker-1)
+  * Book Ticker         [REST](#get-book-ticker) [WebSocket](#get-book-ticker-1)
+  * 24 Hour Ticker      [REST](#get-24-hour-ticker) [WebSocket](#get-24-hour-ticker-1)
 * Private 
-  * Place Order         [REST](#place-order) [Websocket](#place-order-1)
-  * Update Order        [REST](#update-order) [Websocket](#update-order-1)
-  * Get Order           [REST](#get-order) [Websocket](#get-order-1)
-  * Cancel Order        [REST](#cancel-order) [Websocket](#cancel-order-1)
-  * Get Orders          [REST](#get-orders) [Websocket](#get-orders-1)
-  * Cancel Orders       [REST](#cancel-orders) [Websocket](#cancel-orders-1)
-  * Orders Open         [REST](#get-orders-open) [Websocket](#get-orders-open-1)
-  * Trades              [REST](#get-trades) [Websocket](#get-trades-1)
-  * Account             [REST](#get-account) [Websocket](#get-account-1)
-  * Balance             [REST](#get-balance) [Websocket](#get-balance-1)
-  * Deposit Assets     [REST](#deposit-assets) [Websocket](#deposit-assets-1)
-  * Withdraw Assets   [REST](#withdraw-assets) [Websocket](#withdraw-assets-1)
-  * Deposit History     [REST](#get-deposit-history) [Websocket](#get-deposit-history-1)
-  * Withdrawal History  [REST](#get-withdrawal-history) [Websocket](#get-withdrawal-history-1)
+  * Place Order         [REST](#place-order) [WebSocket](#place-order-1)
+  * Update Order        [REST](#update-order) [WebSocket](#update-order-1)
+  * Get Order           [REST](#get-order) [WebSocket](#get-order-1)
+  * Cancel Order        [REST](#cancel-order) [WebSocket](#cancel-order-1)
+  * Get Orders          [REST](#get-orders) [WebSocket](#get-orders-1)
+  * Cancel Orders       [REST](#cancel-orders) [WebSocket](#cancel-orders-1)
+  * Orders Open         [REST](#get-orders-open) [WebSocket](#get-orders-open-1)
+  * Trades              [REST](#get-trades) [WebSocket](#get-trades-1)
+  * Account             [REST](#get-account) [WebSocket](#get-account-1)
+  * Balance             [REST](#get-balance) [WebSocket](#get-balance-1)
+  * Deposit Assets     [REST](#deposit-assets) [WebSocket](#deposit-assets-1)
+  * Withdraw Assets   [REST](#withdraw-assets) [WebSocket](#withdraw-assets-1)
+  * Deposit History     [REST](#get-deposit-history) [WebSocket](#get-deposit-history-1)
+  * Withdrawal History  [REST](#get-withdrawal-history) [WebSocket](#get-withdrawal-history-1)
 * [Subscriptions](#subscriptions)
   * [Ticker Subscription](#ticker-subscription)
   * [Ticker 24 Hour Subscription](#ticker-24-hour-subscription)
@@ -54,11 +54,11 @@ Since the remaining limit is returned in the header on each REST request, the re
 ```
 let limitRemaining = bitvavo.getRemainingLimit()
 ```
-The websocket functions however do not return a remaining limit, therefore the limit is only updated locally once a ban has been issued.
+The WebSocket functions however do not return a remaining limit, therefore the limit is only updated locally once a ban has been issued.
 
 ## REST requests
 
-The general convention used in all functions (both REST and websockets), is that all optional parameters are passed as an object, while required parameters are passed as separate values. Only when [placing orders](#place-order) some of the optional parameters are required, since a limit order requires more information than a market order. The returned responses are all converted to an object as well, such that `response['<key>'] = '<value>'` and `response.<key> = '<value>'`.
+The general convention used in all functions (both REST and WebSocket), is that all optional parameters are passed as an object, while required parameters are passed as separate values. Only when [placing orders](#place-order) some of the optional parameters are required, since a limit order requires more information than a market order. The returned responses are all converted to an object as well, such that `response['<key>'] = '<value>'` and `response.<key> = '<value>'`.
 
 ### Getting started
 
@@ -1472,13 +1472,13 @@ try {
 ```
 </details>
 
-## Websockets
+## WebSocket
 
-All requests which can be done through REST requests can also be performed over websockets. Bitvavo also provides six [subscriptions](#subscriptions). If subscribed to these, updates specific for that type/market are pushed immediately.
+All requests which can be done through REST requests can also be performed over WebSocket. Bitvavo also provides six [subscriptions](#subscriptions). If subscribed to these, updates specific for that type/market are pushed immediately.
 
 ### Getting started
 
-It is not necessary to initialise the websocket through a function, it will automatically be initialized once you call a function of the websocket class. The first thing you should do is set the error [emitter](https://nodejs.org/api/events.html#events_class_eventemitter). To receive responses on the websocket the emitter should also be set per called function. The emitter is initialized automatically and can be retrieved through the `bitvavo.getEmitter()` function. After which you should set the emitter key to the function name (camelCase). This means that if you call the time function, the emitter should be set in the following manner:
+It is not necessary to initialise the WebSocket through a function, it will automatically be initialized once you call a function of the WebSocket class. The first thing you should do is set the error [emitter](https://nodejs.org/api/events.html#events_class_eventemitter). To receive responses on the WebSocket the emitter should also be set per called function. The emitter is initialized automatically and can be retrieved through the `bitvavo.getEmitter()` function. After which you should set the emitter key to the function name (camelCase). This means that if you call the time function, the emitter should be set in the following manner:
 
 ```javascript
 let emitter = bitvavo.getEmitter()
@@ -1491,10 +1491,10 @@ emitter.on('time', (response) => {
   console.log('Handle your response here', response)
 })
 
-bitvavo.websocket.time()
+bitvavo.WebSocket.time()
 ```
 
-The api key and secret are copied from the bitvavo object. Therefore if you want to use the private portion of the websockets API, you should set both the key and secret as specified in [REST requests](#rest-requests).
+The api key and secret are copied from the bitvavo object. Therefore if you want to use the private portion of the WebSocket API, you should set both the key and secret as specified in [REST requests](#rest-requests).
 
 ### requestId
 It is possible to include a numeric `requestId` in the request to uniquely identify it, and this ID will always be returned in the response, even in case of errors.
@@ -2820,7 +2820,7 @@ bitvavo.websocket.subscriptionBook('LTC-EUR', (book) => {
 </details>
 
 #### Unsubscribe
-Unsubscribe from a previously opened websocket connection.
+Unsubscribe from a previously opened WebSocket connection.
 ```javascript
 bitvavo.websocket.unsubscribe('LTC-EUR', 'account')
 ```
