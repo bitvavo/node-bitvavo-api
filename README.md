@@ -5,6 +5,8 @@ You use Bitvavo SDK for Node.js to buy, sell, and store over 200 digital assets 
 
 To trade and execute your advanced trading strategies, Bitvavo SDK for Node.js is a wrapper that enables you to easily call every endpoint in [Bitvavo API](https://docs.bitvavo.com/). Every function available on the API can be called through a REST request or over WebSocket.
 
+* [Prerequisites](#prerequisites)
+* [Install](#installation)
 * Getting started       [REST](#getting-started) [WebSocket](#getting-started-1)
 * General
   * Time                [REST](#get-time) [WebSocket](#get-time-1)
@@ -42,7 +44,27 @@ To trade and execute your advanced trading strategies, Bitvavo SDK for Node.js i
   * [Book Subscription With Local Copy](#book-subscription-with-local-copy)
   * [Unsubscribe](#unsubscribe)
 
+## Prerequisites
+
+To start programming with Bitvavo SDK for Node.js you need:
+
+- [Node.js](https://nodejs.org/en) installed on your development device
+- A Node app. Use your favorite IDE, or run from the command line
+- An [API key and secret](https://support.bitvavo.com/hc/en-us/articles/4405059841809) associated with your Bitvavo account
+
+  You control the actions your app can do using the rights you assign to the API key.
+  Possible rights are:
+  + **View**: retrieve information about your balance, account, deposit and withdrawals
+  + **Trade**: place, update, view and cancel orders
+  + **Withdraw**: withdraw funds
+
+    Best practice is to not grant this privilege, withdrawals using the API do not require 2FA and e-mail confirmation.
+
+
 ## Installation
+
+To install Bitvavo SDK for Node.js, run the following command in your Node app: 
+
 ```
 npm i bitvavo
 ```
