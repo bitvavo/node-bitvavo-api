@@ -1,6 +1,6 @@
 {
   "name": "bitvavo",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "description": "This is the NodeJS wrapper for the Bitvavo API",
   "main": "lib/index.js",
   "scripts": {
