@@ -6,7 +6,7 @@
  * Bitvavo: https://bitvavo.com
  * README: https://github.com/bitvavo/node-bitvavo-api
  */
-const bitvavo = require('bitvavo')().options({
+const bitvavo = require('../lib')().options({
   APIKEY: '<APIKEY>',
   APISECRET: '<APISECRET>',
   ACCESSWINDOW: 10000,
@@ -388,6 +388,23 @@ let testAccount = async () => {
   }
 }
 
+let testFees = async () => {
+  bitvavo.fees((error, response) => {
+    if (error == null) {
+      console.log(response)
+    } else {
+      console.log(error)
+    }
+  })
+
+  try {
+    let response = await bitvavo.fees()
+    console.log(response)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 let testBalance = async () => {
   bitvavo.balance({}, (error, response) => {
     if (error == null) {
@@ -509,6 +526,7 @@ let testRestApi = async () => {
   // testTrades()
 
   // testAccount()
+  // testFees()
   // testBalance()
   // testDepositAssets()
   // testWithdrawAssets()
@@ -573,6 +591,9 @@ let websocketSetListeners = async () => {
   emitter.on('account', (response) => {
     console.log('AccountResponse', response)
   })
+  emitter.on('fees', (response) => {
+    console.log('FeesResponse', response)
+  })
   emitter.on('balance', (response) => {
     console.log('BalanceResponse', response)
   })
@@ -616,6 +637,8 @@ let testWebSockets = async () => {
   // bitvavo.websocket.trades('BTC-EUR', {})
 
   // bitvavo.websocket.account()
+  // bitvavo.websocket.fees()
+  // bitvavo.websocket.fees('BTC-EUR')
   // bitvavo.websocket.balance({})
   // bitvavo.websocket.depositAssets('BTC')
   // bitvavo.websocket.withdrawAssets('BTC', '1', 'BitcoinAddress', {})
