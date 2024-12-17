@@ -25,7 +25,6 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONARCLOUD_TEST_COVERAGE }}
         with:
           args: >
-            -X
             -Dsonar.projectKey=bitvavo_node-bitvavo-api
             -Dsonar.organization=bitvavo
             -Dsonar.sources=lib
