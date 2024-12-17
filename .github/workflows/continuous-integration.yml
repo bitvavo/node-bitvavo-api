@@ -11,10 +11,6 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
-      - name: 'Fetch master branch and checkout/copy over only the docs folder to gh-pages'
-        run: |
-          git fetch origin master --depth 1
-          git checkout origin/master
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
