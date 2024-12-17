@@ -25,10 +25,9 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONARCLOUD_TEST_COVERAGE }}
         with:
           args: >
-            -Dsonar.projectKey=bitvavo_frontend-website # SonarCloud project
-            -Dsonar.organization=bitvavo # SonarCloud organization (always bitvavo)
-            -Dsonar.sources=src # source of the project
-            -Dsonar.exclusions=**/node_modules/**,**/dist/**,**/coverage/**,**/e2e/**,**/cypress/**,**/github-trigger/** # exclusion repository
-            -Dsonar.javascript.lcov.reportPaths=./coverage/lcov.info # coverage file
-            -Dsonar.typescript.tsconfigPath=tsconfig.json # typescript specific config, this file is in the repo
+            -Dsonar.projectKey=bitvavo_node-bitvavo-api
+            -Dsonar.organization=bitvavo
+            -Dsonar.sources=lib
+            -Dsonar.exclusions=**/node_modules/**,**/dist/**,**/coverage/**,**/e2e/**,**/cypress/**,**/github-trigger/**
+            -Dsonar.javascript.lcov.reportPaths=./coverage/lcov.info
             -Dsonar.sourceEncoding=UTF-8
