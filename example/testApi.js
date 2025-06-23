@@ -197,7 +197,8 @@ let testTicker24h = async () => {
 }
 
 let testPlaceOrder = async () => {
-  bitvavo.placeOrder('BTC-EUR', 'sell', 'limit', { amount: '0.1', price: '2000' }, (error, response) => {
+  let operatorId = 1
+  bitvavo.placeOrder('BTC-EUR', 'sell', 'limit', operatorId, { amount: '0.1', price: '99000' }, (error, response) => {
     if (error === null) {
       console.log(response)
     } else {
@@ -206,7 +207,7 @@ let testPlaceOrder = async () => {
   })
 
   try {
-    let response = await bitvavo.placeOrder('BTC-EUR', 'buy', 'market', { 'amount': '0.001' })
+    let response = await bitvavo.placeOrder('BTC-EUR', 'buy', 'market', operatorId, { 'amount': '0.0001' })
     console.log(response)
   } catch (error) {
     console.log(error)
@@ -217,7 +218,8 @@ let testPlaceOrder = async () => {
     'BTC-EUR',
     'sell',
     'stopLoss',
-    { amount: '0.1', triggerType: 'price', triggerReference: 'lastTrade', triggerAmount: '5000' },
+    operatorId,
+    { amount: '0.1', triggerType: 'price', triggerReference: 'lastTrade', triggerAmount: '85000' },
     (error, response) => {
       if (error === null) {
         console.log(response)
@@ -246,32 +248,9 @@ let testGetOrder = async () => {
 }
 
 let testUpdateOrder = async () => {
-  bitvavo.updateOrder(
-    'BTC-EUR',
-    'aadbb500-835e-4ae9-b881-e2f18d1c1bff',
-    { amount: '0.3', price: '6000' },
-    (error, response) => {
-      if (error === null) {
-        console.log(response)
-      } else {
-        console.log(error)
-      }
-    },
-  )
-
-  try {
-    let response = await bitvavo.updateOrder('BTC-EUR', 'aadbb500-835e-4ae9-b881-e2f18d1c1bff', {
-      amount: 0.2,
-      price: '7000',
-    })
-    console.log(response)
-  } catch (error) {
-    console.log(error)
-  }
-}
-
-let testCancelOrder = async () => {
-  bitvavo.cancelOrder('BTC-EUR', 'aadbb500-835e-4ae9-b881-e2f18d1c1bff', (error, response) => {
+  let orderId = 'aadbb500-835e-4ae9-b881-e2f18d1c1bff'
+  let operatorId = 1
+  bitvavo.updateOrder('BTC-EUR', orderId, operatorId, { amount: '0.0002', price: '86000' }, (error, response) => {
     if (error === null) {
       console.log(response)
     } else {
@@ -280,7 +259,29 @@ let testCancelOrder = async () => {
   })
 
   try {
-    let response = await bitvavo.cancelOrder('BTC-EUR', 'aadbb500-835e-4ae9-b881-e2f18d1c1bff')
+    let response = await bitvavo.updateOrder('BTC-EUR', orderId, operatorId, {
+      amount: '0.0001',
+      price: '85000',
+    })
+    console.log(response)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+let testCancelOrder = async () => {
+  let orderId = 'aadbb500-835e-4ae9-b881-e2f18d1c1bff'
+  let operatorId = 1
+  bitvavo.cancelOrder('BTC-EUR', orderId, operatorId, (error, response) => {
+    if (error === null) {
+      console.log(response)
+    } else {
+      console.log(error)
+    }
+  })
+
+  try {
+    let response = await bitvavo.cancelOrder('BTC-EUR', orderId, operatorId)
     console.log(response)
   } catch (error) {
     console.log(error)
@@ -290,9 +291,7 @@ let testCancelOrder = async () => {
 let testGetOrders = async () => {
   bitvavo.getOrders('BTC-EUR', {}, (error, response) => {
     if (error === null) {
-      for (let entry of response) {
-        console.log(entry)
-      }
+      console.log(response)
     } else {
       console.log(error)
     }
@@ -300,16 +299,15 @@ let testGetOrders = async () => {
 
   try {
     let response = await bitvavo.getOrders('BTC-EUR', {})
-    for (let entry of response) {
-      console.log(entry)
-    }
+    console.log(response)
   } catch (error) {
     console.log(error)
   }
 }
 
 let testCancelOrders = async () => {
-  bitvavo.cancelOrders({ market: 'BTC-EUR' }, (error, response) => {
+  let operatorId = 1
+  bitvavo.cancelOrders({ market: 'BTC-EUR' }, operatorId, (error, response) => {
     if (error === null) {
       for (let entry of response) {
         console.log(entry)
@@ -320,7 +318,7 @@ let testCancelOrders = async () => {
   })
 
   try {
-    let response = await bitvavo.cancelOrders({ market: 'BTC-EUR' })
+    let response = await bitvavo.cancelOrders({ market: 'BTC-EUR' }, operatorId)
     for (let entry of response) {
       console.log(entry)
     }
@@ -627,12 +625,13 @@ let testWebSockets = async () => {
   // bitvavo.websocket.tickerPrice({ market: 'BTC-EUR' })
   // bitvavo.websocket.tickerBook({ market: 'BTC-EUR' })
 
-  // bitvavo.websocket.placeOrder('BTC-EUR', 'sell', 'limit', { amount: '1', price: '6000' })
+  let operatorId = 1
+  // bitvavo.websocket.placeOrder('BTC-EUR', 'sell', 'limit', operatorId, { amount: '0.01', price: '97000' })
   // bitvavo.websocket.getOrder('BTC-EUR', '89c1a7f6-5fa1-4fa6-8a8d-aa2388798d4a')
-  // bitvavo.websocket.updateOrder('BTC-EUR', 'bc86d303-c199-404d-b742-f9b3a030916f', { amount: '0.5' })
-  // bitvavo.websocket.cancelOrder('BTC-EUR', 'bc86d303-c199-404d-b742-f9b3a030916f')
+  // bitvavo.websocket.updateOrder('BTC-EUR', 'bc86d303-c199-404d-b742-f9b3a030916f', operatorId,{ amount: '0.012' })
+  // bitvavo.websocket.cancelOrder('BTC-EUR', 'bc86d303-c199-404d-b742-f9b3a030916f', operatorId)
   // bitvavo.websocket.getOrders('BTC-EUR', { limit: 10 })
-  // bitvavo.websocket.cancelOrders({ market: 'BTC-EUR' })
+  // bitvavo.websocket.cancelOrders({ market: 'BTC-EUR' }, operatorId)
   // bitvavo.websocket.ordersOpen({ market: 'BTC-EUR' })
   // bitvavo.websocket.trades('BTC-EUR', {})
 
