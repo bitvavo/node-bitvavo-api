@@ -250,19 +250,13 @@ let testGetOrder = async () => {
 let testUpdateOrder = async () => {
   let orderId = 'aadbb500-835e-4ae9-b881-e2f18d1c1bff'
   let operatorId = 1
-  bitvavo.updateOrder(
-    'BTC-EUR',
-    orderId,
-    operatorId,
-    { amount: '0.0002', price: '86000' },
-    (error, response) => {
-      if (error === null) {
-        console.log(response)
-      } else {
-        console.log(error)
-      }
-    },
-  )
+  bitvavo.updateOrder('BTC-EUR', orderId, operatorId, { amount: '0.0002', price: '86000' }, (error, response) => {
+    if (error === null) {
+      console.log(response)
+    } else {
+      console.log(error)
+    }
+  })
 
   try {
     let response = await bitvavo.updateOrder('BTC-EUR', orderId, operatorId, {
