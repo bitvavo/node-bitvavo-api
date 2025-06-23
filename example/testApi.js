@@ -631,12 +631,13 @@ let testWebSockets = async () => {
   // bitvavo.websocket.tickerPrice({ market: 'BTC-EUR' })
   // bitvavo.websocket.tickerBook({ market: 'BTC-EUR' })
 
-  // bitvavo.websocket.placeOrder('BTC-EUR', 'sell', 'limit', { amount: '1', price: '6000' })
+  let operatorId = 1
+  // bitvavo.websocket.placeOrder('BTC-EUR', 'sell', 'limit', operatorId, { amount: '0.01', price: '97000' })
   // bitvavo.websocket.getOrder('BTC-EUR', '89c1a7f6-5fa1-4fa6-8a8d-aa2388798d4a')
-  // bitvavo.websocket.updateOrder('BTC-EUR', 'bc86d303-c199-404d-b742-f9b3a030916f', { amount: '0.5' })
-  // bitvavo.websocket.cancelOrder('BTC-EUR', 'bc86d303-c199-404d-b742-f9b3a030916f')
+  // bitvavo.websocket.updateOrder('BTC-EUR', 'bc86d303-c199-404d-b742-f9b3a030916f', operatorId,{ amount: '0.012' })
+  // bitvavo.websocket.cancelOrder('BTC-EUR', 'bc86d303-c199-404d-b742-f9b3a030916f', operatorId)
   // bitvavo.websocket.getOrders('BTC-EUR', { limit: 10 })
-  // bitvavo.websocket.cancelOrders({ market: 'BTC-EUR' })
+  // bitvavo.websocket.cancelOrders({ market: 'BTC-EUR' }, operatorId)
   // bitvavo.websocket.ordersOpen({ market: 'BTC-EUR' })
   // bitvavo.websocket.trades('BTC-EUR', {})
 
