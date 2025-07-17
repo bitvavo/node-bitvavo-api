@@ -31,3 +31,4 @@ jobs:
             -Dsonar.exclusions=**/node_modules/**,**/dist/**,**/coverage/**,**/e2e/**,**/cypress/**,**/github-trigger/**
             -Dsonar.javascript.lcov.reportPaths=./coverage/lcov.info
             -Dsonar.sourceEncoding=UTF-8
+
